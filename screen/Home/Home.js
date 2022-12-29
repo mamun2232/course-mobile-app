@@ -2,7 +2,7 @@ import {
   FlatList,
   Image,
   ScrollView,
-  StyleSheet,
+
   Text,
   TextInput,
   TouchableOpacity,
@@ -38,8 +38,7 @@ const Home = () => {
   return (
     <ScrollView className="">
       <View className=" px-5 pb-4 pt-3 bg-white  sticky top-0">
-        {/* <Text className=" text-2xl font-medium">Hello Mamun</Text>
-      <Text className=" text-gray-500 text-lg">Let Get Somethings?</Text> */}
+      
 
         <View className="mt h-12  relative">
           <TextInput
