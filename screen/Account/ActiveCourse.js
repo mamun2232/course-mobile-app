@@ -1,7 +1,14 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-const Cart = () => {
+const ActiveCourse = ({navigation}) => {
   const product = [
     {
       name: "Rathsallagh Golf & Country Club: 2 Green Fees",
@@ -38,13 +45,20 @@ const Cart = () => {
       url: "https://aws-obg-image-lb-1.tcl.com/content/dam/brandsite/region/south-korea/blog/TCL-smart-TV.png",
       quantity: "1",
     },
+    {
+      name: "Rathsallagh Golf & Country Club: 2 Green Fees",
+      price: "230",
+      category: "+8801965069886",
+      url: "https://aws-obg-image-lb-1.tcl.com/content/dam/brandsite/region/south-korea/blog/TCL-smart-TV.pngs",
+      quantity: "1",
+    },
   ];
   return (
-    <ScrollView className="mt-3 ">
+    <ScrollView className="mt-3"  showsVerticalScrollIndicator={false}>
       <View className="flex gap-3 pl-4 pr-6">
         {product.map(({ name, url, price, quantity, category }) => (
           <View
-            className="w-full h-24 bg-white rounded-3xl flex flex-row gap-3 p-1  "
+            className="w-full h-32 bg-white rounded-3xl flex flex-row gap-3 p-1  "
             key={url}
           >
             <View className="w-[33.33vw]">
@@ -54,17 +68,31 @@ const Cart = () => {
                 source={{ uri: url }}
                   <Text className=" text-gray-800 font-medium">{name} </Text>
               /> */}
-              <Text className=" text-gray-800 font-medium mt-2">{name} </Text>
+              <Text className=" text-gray-800 font-medium mt-">{name} </Text>
+              <TouchableOpacity onPress={()=> navigation.navigate("Selles List")}>
+                <View className="h-6  bg-orange-600 flex items-center justify-center rounded-lg mt-4">
+                  <Text className="text-white">
+                  Selles List
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
 
-            <View className="w-[33.33vw] pt-1">
+            <View className="w-[33.33vw] pt-">
               <Text className="text-[16px]  text-orange-600 font-medium">
                 {category}
               </Text>
               <Text className=" text-gray-800 ">Active </Text>
               <Text className="text-[16px] font-medium">{quantity} limit</Text>
+              <TouchableOpacity onPress={()=> navigation.navigate("Payment List")}>
+                <View className="h-6  bg-orange-600 flex items-center justify-center rounded-lg mt-2">
+                  <Text className="text-white">
+                  Payment List
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
-            <View className="w-[33.33vw] flex pt-1">
+            <View className="w-[33.33vw] flex   justify-center">
               {/* <Text className="text-[16px] font-medium">{quantity} limit</Text> */}
 
               <View className="w-12 h-12 rounded-full bg-slate-200 flex  items-center justify-center">
@@ -78,4 +106,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default ActiveCourse;

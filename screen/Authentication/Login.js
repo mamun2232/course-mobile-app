@@ -7,59 +7,39 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import UserLogin from "./UserLogin";
+import Adviser from "./Adviser";
 
-const Login = () => {
-  const { navigate } = useNavigation();
+const Login = ({navigation}) => {
+  // const { navigate } = useNavigation();
+  const [tabs, setTabs] = useState(true);
   return (
     <View className="flex-1 justify-center p-5">
-      <View className="h-[60vh] border border-gray-200 rounded-lg p-3 bg-white">
-        <View className=" flex items-center">
-          <Image
-            className="w-52 h-40"
-            source={require("../../assets/login.png")}
-          />
-          <Text className="text-2xl mt-2">Welcome Back</Text>
-          <Text className="text-sm m">E-commarce App ,Happy Shopping</Text>
+      {/* custom tabs here  */}
+      <View className="h-14 bg-white mb-3 rounded-lg border-gray-200 shadow flex flex-row items-center  px-">
+        <View
+          className={`${
+            tabs ? "bg-orange-600 text-white" : ""
+          } w-[43vw]  flex-row justify-center py-3 rounded-l-lg`}
+        >
+          <TouchableOpacity onPress={() => setTabs(true)}>
+            <Text className="text-lg  font-medium">User Login</Text>
+          </TouchableOpacity>
         </View>
-
-        <View className="mt-8">
-          {/* <Text className="text-2xl font-medium">Login Now</Text> */}
-          <SafeAreaView>
-            <View>
-              <TextInput
-                className=" border h-12 rounded-lg px-4 border-slate-200"
-                placeholder="Enter Your Email"
-              />
-            </View>
-            <View className="mt-4">
-              <TextInput
-                secureTextEntry={true}
-                className=" border h-12 rounded-lg px-4 border-slate-200"
-                placeholder="Enter Your Password"
-              />
-              <Text className="text-sm text-right text-orange-600 font-medium">
-                Forget Password?
-              </Text>
-            </View>
-            <View className="mt-5">
-              <TouchableOpacity
-                onPress={() => navigate("Home")}
-                className=" border h-12 rounded-lg px-4 bg-orange-600 border-slate-200 flex items-center justify-center "
-              >
-                <Text className="text-white  font-medium">Login</Text>
-              </TouchableOpacity>
-            </View>
-          </SafeAreaView>
+        <View
+          className={`${
+            !tabs ? "bg-orange-600 text-white" : ""
+          } w-[47vw]   flex-row justify-center py-3 rounded-r-lg`}
+        >
+          <TouchableOpacity onPress={() => setTabs(false)}>
+            <Text className="text-lg  font-medium">Adviser Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <Text className="mt-5  text-center text-[15px]">
-        Dont Have Any Account?
-        <Text onPress={() => navigate("Register")} className="text-orange-600">
-          Please Register
-        </Text>
-      </Text>
+
+      {tabs ? <UserLogin /> : <Adviser />}
     </View>
   );
 };
