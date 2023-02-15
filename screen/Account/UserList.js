@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native';
-
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Box, Toast } from 'native-base';
+import AdminModal from './AdminModal';
 export default function UserList() {
       const [user, setUser] = useState([]);
       const [fetchData, setFetch] = useState(false);
+      const [isOpen, setIsOpen] = useState(false);
+      const [id, setId] = useState("");
       useEffect(()=>{
             fetch(`http://192.168.31.235:5000/api/v1/user/user`)
             .then((res) => res.json())
@@ -57,6 +59,12 @@ export default function UserList() {
                 }
               });
           };
+
+          const makeAdminHendler = (id) =>{
+            setIsOpen(true)
+            setId(id)
+           
+          }
   return (
       <>
       {user.length !== 0 ? (
@@ -94,7 +102,7 @@ export default function UserList() {
                   </View>
                 </View>
 
-                <TouchableOpacity onPress={() => limitReduceHendler(_id)}>
+                <TouchableOpacity onPress={() => makeAdminHendler(_id)}>
                   <View className="h-6  bg-orange-600 flex items-center justify-center rounded-lg mt-2">
                     <Text className="text-white">Make Admin</Text>
                   </View>
@@ -110,7 +118,11 @@ export default function UserList() {
             source={require("../../assets/noAvailbe.gif")}
           />
         </View>
+
+      
+
       )}
+     { isOpen && <AdminModal isOpen={isOpen} id={id} setIsOpen={setIsOpen} setFetch={setFetch} />}
     </>
   )
 }
