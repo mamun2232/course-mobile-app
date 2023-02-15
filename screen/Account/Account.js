@@ -151,7 +151,7 @@ const Account = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
 
-              <View className="w-24">
+              <TouchableOpacity onPress={()=> navigation.navigate("Manage User")} className="w-24">
                 <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
                   <Ionicons
                     name="chatbubbles"
@@ -162,7 +162,7 @@ const Account = ({ navigation }) => {
                 <Text className=" text-center text-gray-500 w-16">
                   Manage User
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
             <View className=" pb-4 px-6 flex flex-row  justify-betwe bg-white">
               <View className="w-24 ">
