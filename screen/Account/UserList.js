@@ -73,7 +73,7 @@ export default function UserList() {
             {user?.map(({ name, email, _id, role }) => (
               <View key={_id} className="w-full h-32 bg-white rounded-3xl p-4">
                 <View className=" flex flex-row gap-3 ">
-                  <View className="w-[44.33vw]">
+                  <View className="w-[68.33vw]">
                     <View className=" h-">
                       <Text className=" text-gray-800 font-medium mt-">
                         {name}{" "}
@@ -81,14 +81,13 @@ export default function UserList() {
                       <Text className="text-[16px]  text-orange-600 font-medium">
                         {email}
                       </Text>
+                      <Text className="text-[16px] font-medium mt-1">
+                     Role- {role}
+                    </Text>
                     </View>
                   </View>
 
-                  <View className="w-[24.33vw] pt-">
-                    <Text className="text-[16px] font-medium mt-5">
-                     Role- {role}
-                    </Text>
-                  </View>
+              
                   <View className="w-[30.33vw] flex ">
                     {/* <Text className="text-[16px] font-medium">{Stock} limit</Text> */}
 

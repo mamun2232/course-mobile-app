@@ -180,7 +180,7 @@ const Account = ({ navigation }) => {
                 </View>
               </View>
 
-              <View className="w-24 ">
+              <TouchableOpacity onPress={()=> navigation.navigate("Manage Payment List")} className="w-24 ">
                 <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
                   <Ionicons
                     name="logo-usd"
@@ -191,7 +191,19 @@ const Account = ({ navigation }) => {
                 <Text className=" text-center text-gray-500 w-16">
                   Payment List
                 </Text>
-              </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=> navigation.navigate("Manage Contect List")} className="w-24 ">
+                <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
+                  <Ionicons
+                    name="logo-usd"
+                    size={22}
+                    color={"#ea580c"}
+                  ></Ionicons>
+                </View>
+                <Text className=" text-center text-gray-500 w-16">
+                  Contect List
+                </Text>
+              </TouchableOpacity>
               {/* 
           <View className="w-24">
             <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
@@ -215,12 +227,62 @@ const Account = ({ navigation }) => {
         )}
       </View>
 
-      <ScrollView className="bg-white pt-5 h-screen">
+      <ScrollView className="bg-white  h-screen">
         <View className="p-4">
-          <Text className="text-lg">Trames And Condation</Text>
-          <Text className="text-lg">Change Password</Text>
+          <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+          <Text className="text-lg ">Faq</Text>
+          <View>
+          <Ionicons
+                name="chevron-forward-outline"
+                size={22}
+                color={"#ea580c"}
+              ></Ionicons>
+          </View>
+          </View>
+          <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+          <Text className="text-lg ">Terms of service</Text>
+          <View>
+          <Ionicons
+                name="chevron-forward-outline"
+                size={22}
+                color={"#ea580c"}
+              ></Ionicons>
+          </View>
+          </View>
+          <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+          <Text className="text-lg ">Privacy Statement</Text>
+          <View>
+          <Ionicons
+                name="chevron-forward-outline"
+                size={22}
+                color={"#ea580c"}
+              ></Ionicons>
+          </View>
+          </View>
+          <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+          <Text className="text-lg ">About Us</Text>
+          <View>
+          <Ionicons
+                name="chevron-forward-outline"
+                size={22}
+                color={"#ea580c"}
+              ></Ionicons>
+          </View>
+          </View>
+          <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+          <Text className="text-lg ">Change Password</Text>
+          <View>
+          <Ionicons
+                name="chevron-forward-outline"
+                size={22}
+                color={"#ea580c"}
+              ></Ionicons>
+          </View>
+          </View>
+          
+          
           <Text onPress={() => signOut(auth)} className="text-lg">
-            LogOut
+            Singout
           </Text>
         </View>
       </ScrollView>

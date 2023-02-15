@@ -57,7 +57,7 @@ const UserLogin = ({ navigation }) => {
         } else {
           // toast.error(result.message);
         }
-      });
+      }).catch((e)=>console.log(e))
     // reset();
     // navigate("Home");
   };

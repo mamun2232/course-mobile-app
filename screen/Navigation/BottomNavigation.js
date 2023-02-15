@@ -25,6 +25,7 @@ const BottomNavigation = ({ navigation }) => {
            headerTitleAlign: "center" ,
           tabBarActiveTintColor: "#ea580c",
           nactiveTintColor: "black",
+          
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate("Cart")}
@@ -47,6 +48,20 @@ const BottomNavigation = ({ navigation }) => {
           // title: "My Course",
           tabBarActiveTintColor: "#ea580c",
           nactiveTintColor: "black",
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("My Active Courses")}
+              className="px-5 flex items-center"
+            >
+              <Ionicons
+                name="cart-outline"
+                size={26}
+                color={"#ea580c"}
+              ></Ionicons>
+              <Text className="text-[10px]">My Course</Text>
+            </TouchableOpacity>
+          ),
+          
         }}
       />
       <Tab.Screen

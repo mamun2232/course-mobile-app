@@ -8,11 +8,11 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+
 import UserLogin from "./UserLogin";
 import Adviser from "./Adviser";
 
-const Login = ({navigation}) => {
+const Login = () => {
   // const { navigate } = useNavigation();
   const [tabs, setTabs] = useState(true);
   return (

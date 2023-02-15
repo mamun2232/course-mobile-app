@@ -1,11 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Box, Toast } from 'native-base';
 import { ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native';
-import { Image } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 const PaymentList = ({route}) => {
   const [id] = useState(route.params._id);

@@ -52,7 +52,7 @@ const AdviserReg = ({navigation}) => {
         } else {
         }
       })
-      .catch((error) => console.warn("fetch error:", error));
+      .catch((error) => console.log("fetch error:", error));
    
     // navigate("Home")
   };

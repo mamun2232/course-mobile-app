@@ -19,6 +19,8 @@ import PaymentList from "../Account/PaymentList";
 import PendingCourse from "../Account/PendingCourse";
 import ManageActiveCourse from "../Account/ManageActiveCourse";
 import User from "../Account/User";
+import AllPayment from "../Account/AllPayment";
+import ContectList from "../Account/ContectList";
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   const [user] = useAuthState(auth);
@@ -97,6 +99,16 @@ const StackNavigation = () => {
           <Stack.Screen
             name="Manage User"
             component={User}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Manage Payment List"
+            component={AllPayment}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Manage Contect List"
+            component={ContectList}
             options={{ headerTitleAlign: "center" }}
           />
         </>

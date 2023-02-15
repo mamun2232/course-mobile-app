@@ -206,17 +206,7 @@ const ProductDetails = ({ route, navigation }) => {
                 </Text>
               </TouchableOpacity>
             </View> */}
-                <Center>
-                  <Button
-                    onPress={() =>
-                      toast.show({
-                        description: "Hello world",
-                      })
-                    }
-                  >
-                    Show Toast
-                  </Button>
-                </Center>
+               
               </ScrollView>
             </View>
           )}
