@@ -23,7 +23,7 @@ const ProductDetails = ({ route, navigation }) => {
   // const { navigate } = useNavigation();
   useEffect(() => {
     setLoading(true);
-    fetch(`https://new-golf.vercel.app/api/v1/courses/course/${id}`)
+    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -31,7 +31,9 @@ const ProductDetails = ({ route, navigation }) => {
           setProduct(data.course);
           setLoading(false);
         }
-      });
+      }).catch((e)=>{
+        console.log(e)
+      })
   }, []);
 
   const discountHendler = () => {

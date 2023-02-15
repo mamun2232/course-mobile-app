@@ -15,8 +15,11 @@ import {
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { useNavigation } from "@react-navigation/native";
 const Adviser = ({navigation}) => {
-
+  const {navigate} = useNavigation()
+  
+  // https://new-golf.vercel.app 
   const {
     control,
     handleSubmit,
@@ -27,7 +30,7 @@ const Adviser = ({navigation}) => {
     useSignInWithEmailAndPassword(auth);
   const [user, loadings, error] = useAuthState(auth);
   const onSubmit = (data) => {
-    fetch("https://new-golf.vercel.app/api/v1/user/login", {
+    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/login", {
       method: "POST",
       body: JSON.stringify({ email: data.email }),
       headers: {
@@ -140,7 +143,7 @@ const Adviser = ({navigation}) => {
       </View>
       <Text className="mt-2  text-center text-[15px]">
         Dont Have Any Account?
-        <Text onPress={() => navigation.navigate("Register")} className="text-orange-600">
+        <Text onPress={() => navigate("Register")} className="text-orange-600">
           Please Register
         </Text>
       </Text>

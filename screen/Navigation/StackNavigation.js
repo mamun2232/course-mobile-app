@@ -17,6 +17,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import SallesList from "../Account/SallesList";
 import PaymentList from "../Account/PaymentList";
 import PendingCourse from "../Account/PendingCourse";
+import ManageActiveCourse from "../Account/ManageActiveCourse";
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   const [user] = useAuthState(auth);
@@ -85,6 +86,11 @@ const StackNavigation = () => {
           <Stack.Screen
             name="Pending Courses"
             component={PendingCourse}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Manage Active Course"
+            component={ManageActiveCourse}
             options={{ headerTitleAlign: "center" }}
           />
         </>

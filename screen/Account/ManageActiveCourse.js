@@ -1,13 +1,21 @@
-import { Box, Toast } from "native-base";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { Toast, Box } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
-const PendingCourse = ({ navigation }) => {
+const ManageActiveCourse = ({ navigation }) => {
   const [course, setCourse] = useState([]);
   const [loading, setLoading] = useState(false);
   // const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     fetch("http://192.168.31.235:5000/api/v1/courses/course")
       .then((res) => res.json())
       .then((data) => {
@@ -45,47 +53,12 @@ const PendingCourse = ({ navigation }) => {
           });
         } else {
         }
-      });
-  };
-  // if (loading) return <Loading />;
-
-  const activeHendler = (id) => {
-    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        status: "Active",
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.success) {
-          Toast.show({
-            placement: "top",
-            render: () => {
-              return (
-                <Box
-                  bg="#f97316"
-                  color="#fff"
-                  px="2"
-                  py="2"
-                  mt={16}
-                  rounded="sm"
-                  mb={5}
-                >
-                  <Text className="text-white"> Course Active Successfull</Text>
-                </Box>
-              );
-            },
-          });
-        }
       })
       .catch((e) => {
         console.log(e);
       });
   };
+  // if (loading) return <Loading />;
   return (
     <>
       {course.length !== 0 ? (
@@ -93,7 +66,7 @@ const PendingCourse = ({ navigation }) => {
           <View className="flex gap-3 pl-4 pr-6">
             {course?.map(
               ({ name, price, Stock, category, status, _id }) =>
-                status !== "Active" && (
+                status !== "Pending" && (
                   <View
                     className="w-full h-32 bg-white rounded-3xl flex flex-row gap-3 p-1  "
                     key={_id}
@@ -131,9 +104,9 @@ const PendingCourse = ({ navigation }) => {
                       <Text className="text-[16px] font-medium">
                         {Stock} limit
                       </Text>
-                      <TouchableOpacity onPress={() => activeHendler(_id)}>
+                      <TouchableOpacity>
                         <View className="h-6  bg-orange-600 flex items-center justify-center rounded-lg mt-3">
-                          <Text className="text-white">Active Now</Text>
+                          <Text className="text-white">Update Now</Text>
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -166,4 +139,6 @@ const PendingCourse = ({ navigation }) => {
   );
 };
 
-export default PendingCourse;
+export default ManageActiveCourse;
+
+const styles = StyleSheet.create({});

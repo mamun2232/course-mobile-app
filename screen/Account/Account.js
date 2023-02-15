@@ -138,7 +138,7 @@ const Account = ({ navigation }) => {
                 </Text>
               </TouchableOpacity>
 
-              <View className="w-24">
+              <TouchableOpacity onPress={()=> navigation.navigate("Manage Active Course")}  className="w-24">
                 <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
                   <Ionicons
                     name="navigate"
@@ -149,7 +149,7 @@ const Account = ({ navigation }) => {
                 <Text className=" text-center text-gray-500 w-16">
                   Manage Course
                 </Text>
-              </View>
+              </TouchableOpacity>
 
               <View className="w-24">
                 <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">

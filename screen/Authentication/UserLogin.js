@@ -18,7 +18,10 @@ import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
 import { Actionsheet, useDisclose , Box, Center   } from "native-base";
 import ForgatePass from "./ForgatePass";
+import { useNavigation } from "@react-navigation/native";
 const UserLogin = ({ navigation }) => {
+
+  const {navigate} = useNavigation()
 
   const {
     isOpen,
@@ -35,7 +38,7 @@ const UserLogin = ({ navigation }) => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    fetch("https://new-golf.vercel.app/api/v1/user/login", {
+    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/login", {
       method: "POST",
       body: JSON.stringify({ email: data.email }),
       headers: {
@@ -154,7 +157,7 @@ console.log(onOpen)
       </View>
       <Text className="mt-2  text-center text-[15px]">
         Dont Have Any Account?
-        <Text onPress={() => navigation.navigate("Register")} className="text-orange-600">
+        <Text onPress={() => navigate("Register")} className="text-orange-600">
           Please Register
         </Text>
       </Text>

@@ -16,9 +16,10 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
+import { useNavigation } from "@react-navigation/native";
 
 const UserReg = ({navigation}) => {
-  
+  const {navigate} = useNavigation()
   const {
     control,
     handleSubmit,
@@ -37,7 +38,7 @@ const UserReg = ({navigation}) => {
       email: data.email,
       role: "User",
     };
-    fetch("https://new-golf.vercel.app/api/v1/user/register", {
+    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/register", {
       method: "POST",
       body: JSON.stringify(userInfo),
       headers: {
@@ -209,7 +210,7 @@ const UserReg = ({navigation}) => {
       </View>
       <Text className="mt-2  text-center text-[15px] ">
         All Ready Register?
-        <Text onPress={() => navigation.navigate("Login")} className="text-orange-600 ">
+        <Text onPress={() => navigate("Login")} className="text-orange-600 ">
           Please Login
         </Text>
       </Text>

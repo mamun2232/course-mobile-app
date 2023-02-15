@@ -32,7 +32,7 @@ const AdviserReg = ({navigation}) => {
       role: "Adviser",
       adviserUserName: data.userName,
     };
-    fetch("https://new-golf.vercel.app/api/v1/user/register", {
+    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/register", {
       method: "POST",
       body: JSON.stringify(userInfo),
       headers: {
@@ -62,7 +62,7 @@ const AdviserReg = ({navigation}) => {
 
   }
   if (user) {
-    navigation.navigate("Home");
+    navigation?.navigate("Home");
   }
   return (
     <View>
@@ -226,7 +226,7 @@ const AdviserReg = ({navigation}) => {
       </View>
       <Text className="mt-2  text-center text-[15px] ">
         All Ready Register?
-        <Text onPress={() => navigation.navigate("Login")} className="text-orange-600 ">
+        <Text onPress={() => navigation?.navigate("Login")} className="text-orange-600 ">
           Please Login
         </Text>
       </Text>

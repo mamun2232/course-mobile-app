@@ -28,14 +28,17 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     setLoading(true)
-    fetch("https://new-golf.vercel.app/api/v1/courses/course")
+    fetch("http://192.168.31.235:5000/api/v1/courses/course")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setProudct(data.course);
           setLoading(false)
         }
-      });
+      })
+      .catch((e)=>{
+        console.log(e)
+      })
   }, []);
 
   return (
