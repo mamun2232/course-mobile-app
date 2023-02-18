@@ -5,9 +5,28 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { signOut } from "firebase/auth";
 import { TouchableOpacity } from "react-native";
+import {AsyncStorage} from 'react-native';
+import { useEffect } from "react";
 const Account = ({ navigation }) => {
   const [user] = useAuthState(auth);
   const [viewAll , setViewAll] = useState(false);
+  const [token , setToken] = useState("")
+
+//   useEffect(()=>{
+//     reeData()
+//   },[])
+//  const reeData = async () => {
+//     try {
+//       const value = await AsyncStorage.getItem('userId');
+//       if (value !== null) {
+//         // We have data!!
+//         setToken(value);
+//       }
+//     } catch (error) {
+//       // Error retrieving data
+//     }
+//   };
+ 
 
   return (
     <View>
@@ -283,6 +302,7 @@ const Account = ({ navigation }) => {
           
           <Text onPress={() => signOut(auth)} className="text-lg">
             Singout
+            {token}
           </Text>
         </View>
       </ScrollView>

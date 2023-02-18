@@ -17,9 +17,9 @@ import {
 import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
 import { useNavigation } from "@react-navigation/native";
-
-const UserReg = ({navigation}) => {
-  const {navigate} = useNavigation()
+import { AsyncStorage } from "react-native";
+const UserReg = ({ navigation }) => {
+  const { navigate } = useNavigation();
   const {
     control,
     handleSubmit,
@@ -31,7 +31,6 @@ const UserReg = ({navigation}) => {
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile, updating, Uerror] = useUpdateProfile(auth);
   const onSubmit = (data) => {
-   
     const name = `${data.fistName} ${data.lastName}`;
     const userInfo = {
       name,
@@ -51,9 +50,8 @@ const UserReg = ({navigation}) => {
         if (result.success) {
           await createUserWithEmailAndPassword(data.email, data.password);
           await updateProfile({ displayName: name });
-          // navigate("/login");
-          // localStorage.setItem("Token", result?.token);
-          // localStorage.setItem("userId", result.user._id);
+          await AsyncStorage.setItem("Token", result.token);
+          await AsyncStorage.setItem("userId", result.user._id);
         } else {
         }
       })
@@ -65,9 +63,8 @@ const UserReg = ({navigation}) => {
   // if(errors || Cerror){
   //   alert(errors?.message || Cerror?.message )
   // }
-  if(loading || updating){
-    return <Loading/>
-
+  if (loading || updating) {
+    return <Loading />;
   }
   if (user) {
     navigation.navigate("Home");

@@ -5,18 +5,26 @@ import { SafeAreaView } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import { AsyncStorage } from "react-native";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 const Address = ({navigation}) => {
   // const navigate = useNavigation()
+  const [user, loadings, error] = useAuthState(auth);
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({defaultValues:{
+    name: user?.displayName,
+    email: user?.email
+  }});
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async(data) => {
+    
+    const shippingInfo = JSON.stringify(data);
+      await AsyncStorage.setItem("shippingInfo", shippingInfo);
     navigation.navigate("Payment")
   };
   return (

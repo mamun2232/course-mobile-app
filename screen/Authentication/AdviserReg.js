@@ -11,6 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useAuthState, useCreateUserWithEmailAndPassword, useUpdateProfile } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
+import { AsyncStorage } from "react-native";
 const AdviserReg = ({navigation}) => {
 
   const {
@@ -46,13 +47,11 @@ const AdviserReg = ({navigation}) => {
         if (result.success) {
           await createUserWithEmailAndPassword(data.email, data.password);
           await updateProfile({ displayName: name });
-          // navigate("/login");
-          // localStorage.setItem("Token", result?.token);
-          // localStorage.setItem("userId", result.user._id);
+          await AsyncStorage.setItem("Token", result.token);
+          await AsyncStorage.setItem("userId", result.user._id);
         } else {
         }
-      })
-      .catch((error) => console.log("fetch error:", error));
+      }).catch((error) => console.log("fetch error:", error));
    
     // navigate("Home")
   };

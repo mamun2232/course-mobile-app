@@ -15,17 +15,7 @@ const Home = ({navigation}) => {
   const [products, setProudct] = useState([]);
   // const { navigate } = useNavigation();
   const [loadings, setLoading] = useState(false);
-  const cetagory = [
-    { name: "Showes" },
-    { name: "T-shart" },
-    { name: "Hijab" },
-    { name: "Laptop" },
-    { name: "Tv" },
-    { name: "Burka" },
-    { name: "Course" },
-    { name: "Pankabi" },
-  ];
-
+ 
   useEffect(() => {
     setLoading(true)
     fetch("http://192.168.31.235:5000/api/v1/courses/course")

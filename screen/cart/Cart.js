@@ -1,7 +1,69 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useState } from "react";
+import { useEffect } from "react";
+import { AsyncStorage } from "react-native";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
+import { Box, Toast } from "native-base";
 const Cart = () => {
+  const [myCourses , setMycourse] = useState([])
+  const [user] = useAuthState(auth)
+
+  useEffect(() => {
+    fetch(`http://192.168.31.235:5000/api/v1/order/myCourses/${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        if (data.success) {
+          setMycourse(data?.order);
+         
+        } else {
+          
+        }
+      }).catch((e)=>console.log(e))
+  }, [ myCourses]);
+
+  // if (loading) {
+  //   return <Loading />;
+
+  // }
+
+  
+  
+  const deleteHenedler = (id) => {
+
+    fetch(`http://192.168.31.235:5000/api/v1/order/order/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          Toast.show({
+            placement: "top",
+            render: () => {
+              return (
+                <Box
+                  bg="#f97316"
+                  color="#fff"
+                  px="2"
+                  py="2"
+                  mt={16}
+                  rounded="sm"
+                  mb={5}
+                >
+                  <Text className="text-white">Delete Succsessfull</Text>
+                </Box>
+              );
+            },
+          }).catch((e)=>console.log(e))
+        } else {
+        }
+      });
+  };
+ 
+  
   const product = [
     {
       name: "Rathsallagh Golf & Country Club: 2 Green Fees",
@@ -40,12 +102,13 @@ const Cart = () => {
     },
   ];
   return (
-    <ScrollView className="mt-3 ">
+    <>
+    {myCourses?.length !== 0 ? <ScrollView className="mt-3 ">
       <View className="flex gap-3 pl-4 pr-6">
-        {product.map(({ name, url, price, quantity, category }) => (
-          <View
+       
+        {myCourses?.map((courses) => ( <View
             className="w-full h-24 bg-white rounded-3xl flex flex-row gap-3 p-1  "
-            key={url}
+            key={courses?._id}
           >
             <View className="w-[33.33vw]">
               {/* <Image
@@ -54,27 +117,40 @@ const Cart = () => {
                 source={{ uri: url }}
                   <Text className=" text-gray-800 font-medium">{name} </Text>
               /> */}
-              <Text className=" text-gray-800 font-medium mt-2">{name} </Text>
+              <Text className=" text-gray-800 font-medium mt-2">{courses?.productId?.name} </Text>
             </View>
 
             <View className="w-[33.33vw] pt-1">
               <Text className="text-[16px]  text-orange-600 font-medium">
-                {category}
+                {courses?.productId?.category}
               </Text>
               <Text className=" text-gray-800 ">Active </Text>
-              <Text className="text-[16px] font-medium">{quantity} limit</Text>
+              <Text className="text-[16px] font-medium">{courses?.limit == 0
+                            ? "NO LIMITED AVALIABLE"
+                            : `${courses?.limit} limit`} </Text>
             </View>
-            <View className="w-[33.33vw] flex pt-1">
+            <TouchableOpacity onPress={()=>deleteHenedler(courses?._id)} className="w-[33.33vw] flex pt-1">
               {/* <Text className="text-[16px] font-medium">{quantity} limit</Text> */}
 
               <View className="w-12 h-12 rounded-full bg-slate-200 flex  items-center justify-center">
                 <Ionicons name="trash" size={22} color={"#ea580c"}></Ionicons>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
         ))}
       </View>
     </ScrollView>
+    :
+    <View className=" flex  justify-center items-center h-screen  rounded-lg shadow">
+          <Image
+            className=" w-[90vw] h-96 rounded-lg"
+            source={require("../../assets/shoppingCart.gif")}
+          />
+        </View>
+    
+  }
+    
+    </>
   );
 };
 

@@ -12,31 +12,58 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../Utilits/Loading";
 import ModalButton from "./ModalButton";
+import { AsyncStorage } from "react-native";
 
 const ProductDetails = ({ route, navigation }) => {
   const [id] = useState(route.params._id);
   const [product, setProduct] = useState(null);
   const [loadings, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState({});
+  const [userId, setUserId] = useState("");
+  const [shippingInfo , setshippingInfo] = useState({})
   const toast = useToast();
 
   // const { navigate } = useNavigation();
   useEffect(() => {
     setLoading(true);
+    reeData();
     fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.success) {
           setProduct(data.course);
           setLoading(false);
         }
-      }).catch((e)=>{
-        console.log(e)
       })
-  }, []);
+      .catch((e) => {
+        console.log(e);
+      });
+    fetch(`http://192.168.31.235:5000/api/v1/user/single/${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.success) {
+          setUser(data?.user);
+        }
+      })
+      .catch((e) => console.log(e));
+  }, [userId]);
 
-  const discountHendler = () => {
+  const reeData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("userId");
+      const shippingInfo = await AsyncStorage.getItem('shippingInfo');
+      if (value !== null) {
+        // We have data!!
+        setUserId(value);
+        setshippingInfo(shippingInfo)
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  const discountHendler = async () => {
     toast.show({
       placement: "top",
       render: () => {
@@ -63,6 +90,83 @@ const ProductDetails = ({ route, navigation }) => {
         );
       },
     });
+    const jsonValue = JSON.stringify(product);
+    await AsyncStorage.setItem("cart", jsonValue);
+  };
+
+  const paymentRequsterHendler = async (quantity) => {
+    if (user?.status === "PAID") {
+      const orderItems = JSON.stringify(product);
+      await AsyncStorage.setItem("cart", orderItems);
+      const data = {
+        shippingInfo,
+        orderItems,
+        name: user?.name,
+        email: user?.email,
+      };
+
+      fetch(`http://192.168.31.235:5000/api/v1/order/new`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("UserToken")}`,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            toast.show({
+              placement: "top",
+              render: () => {
+                return (
+                  <Box
+                    bg="#f97316"
+                    color="#fff"
+                    px="2"
+                    py="2"
+                    mt={16}
+                    rounded="sm"
+                    mb={5}
+                  >
+                    <Text className="text-white">Please Contect Seller</Text>
+                  </Box>
+                );
+              },
+            });
+          }
+        });
+    } else {
+      toast.show({
+        placement: "top",
+        render: () => {
+          return (
+            <Box
+              bg="#f97316"
+              color="#fff"
+              px="2"
+              py="2"
+              mt={16}
+              rounded="sm"
+              mb={5}
+            >
+              <Text className="text-white">
+                You need to subscribe to use this discount
+              </Text>
+              <Text
+                className="text-white font-medium text-center"
+                onPress={() => navigation.navigate("Personal Information")}
+              >
+                Use Discount
+              </Text>
+            </Box>
+          );
+        },
+      });
+
+      const orderItems = JSON.stringify(product);
+      await AsyncStorage.setItem("cart", orderItems);
+    }
   };
   return (
     <View>
@@ -206,7 +310,6 @@ const ProductDetails = ({ route, navigation }) => {
                 </Text>
               </TouchableOpacity>
             </View> */}
-               
               </ScrollView>
             </View>
           )}
@@ -228,7 +331,7 @@ const ProductDetails = ({ route, navigation }) => {
             </View>
             <View className="w-[42vw]">
               <TouchableOpacity
-                onPress={() => discountHendler()}
+                onPress={() => paymentRequsterHendler()}
                 className="  bg-orange-600  h-12 rounded-xl items-center justify-center"
               >
                 <Text className="text-white text-lg font-medium">
