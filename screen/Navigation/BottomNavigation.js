@@ -6,10 +6,18 @@ import Account from "../Account/Account";
 import Cart from "../cart/Cart";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AddCourse from "../Home/AddCourse";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
+import useAdviser from "../CustomHook/useAdviser";
+import useAdmin from "../CustomHook/useAdmin";
 
 const Tab = createBottomTabNavigator();
 
 const BottomNavigation = ({ navigation }) => {
+  const [user] = useAuthState(auth);
+  const [adviser] = useAdviser(user);
+  const [admin] = useAdmin(user)
+  
   return (
     <Tab.Navigator
       screenOptions={{
@@ -40,7 +48,8 @@ const BottomNavigation = ({ navigation }) => {
           ),
         }}
       />
-      <Tab.Screen
+      {
+        (adviser || admin) && <Tab.Screen
         name="Add Course"
         component={AddCourse}
         options={{
@@ -64,6 +73,8 @@ const BottomNavigation = ({ navigation }) => {
           
         }}
       />
+      }
+      
       <Tab.Screen
         name="Cart"
         component={Cart}

@@ -16,6 +16,7 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useNavigation } from "@react-navigation/native";
+import { AsyncStorage } from "react-native";
 const Adviser = ({navigation}) => {
   const {navigate} = useNavigation()
   
@@ -45,6 +46,8 @@ const Adviser = ({navigation}) => {
           // toast.success(data.message);
           // localStorage.setItem("Token", result?.token);
           // localStorage.setItem("userId", result.user._id);
+          await AsyncStorage.setItem("Token", result.token);
+          await AsyncStorage.setItem("userId", result.user._id);
           // navigate("/login");
         } else {
           // toast.error(result.message);

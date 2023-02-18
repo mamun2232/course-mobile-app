@@ -21,7 +21,7 @@ const ProductDetails = ({ route, navigation }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState({});
   const [userId, setUserId] = useState("");
-  const [shippingInfo , setshippingInfo] = useState({})
+  const [shippingInfo, setshippingInfo] = useState({});
   const toast = useToast();
 
   // const { navigate } = useNavigation();
@@ -52,69 +52,78 @@ const ProductDetails = ({ route, navigation }) => {
   const reeData = async () => {
     try {
       const value = await AsyncStorage.getItem("userId");
-      const shippingInfo = await AsyncStorage.getItem('shippingInfo');
+      const shipping = await AsyncStorage.getItem("shippingInfo");
+      const shippingD = JSON.parse(shipping)
       if (value !== null) {
         // We have data!!
         setUserId(value);
-        setshippingInfo(shippingInfo)
+        setshippingInfo(shippingD);
       }
     } catch (error) {
       // Error retrieving data
     }
   };
 
-  const discountHendler = async () => {
-    toast.show({
-      placement: "top",
-      render: () => {
-        return (
-          <Box
-            bg="#f97316"
-            color="#fff"
-            px="2"
-            py="2"
-            mt={16}
-            rounded="sm"
-            mb={5}
-          >
-            <Text className="text-white">
-              You need to subscribe to use this discount
-            </Text>
-            <Text
-              className="text-white font-medium text-center"
-              onPress={() => navigation.navigate("Personal Information")}
-            >
-              Use Discount
-            </Text>
-          </Box>
-        );
-      },
-    });
-    const jsonValue = JSON.stringify(product);
-    await AsyncStorage.setItem("cart", jsonValue);
-  };
+  // const discountHendler = async () => {
+  //   toast.show({
+  //     placement: "top",
+  //     render: () => {
+  //       return (
+  //         <Box
+  //           bg="#f97316"
+  //           color="#fff"
+  //           px="2"
+  //           py="2"
+  //           mt={16}
+  //           rounded="sm"
+  //           mb={5}
+  //         >
+  //           <Text className="text-white">
+  //             You need to subscribe to use this discount
+  //           </Text>
+  //           <Text
+  //             className="text-white font-medium text-center"
+  //             onPress={() => navigation.navigate("Personal Information")}
+  //           >
+  //             Use Discount
+  //           </Text>
+  //         </Box>
+  //       );
+  //     },
+  //   });
+  //   const jsonValue = JSON.stringify(product);
+  //   await AsyncStorage.setItem("cart", jsonValue);
+  // };
 
-  const paymentRequsterHendler = async (quantity) => {
+  const paymentRequsterHendler = async () => {
     if (user?.status === "PAID") {
-      const orderItems = JSON.stringify(product);
-      await AsyncStorage.setItem("cart", orderItems);
+   
+      const orderItems = {
+        id: product?._id,
+        quantity: product?.Stock
+      }
+      const shippingInfo ={
+        name: user?.name,
+        email: user?.email,
+      }
       const data = {
         shippingInfo,
         orderItems,
-        name: user?.name,
-        email: user?.email,
+       
       };
+      console.log(data)
 
       fetch(`http://192.168.31.235:5000/api/v1/order/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("UserToken")}`,
+          // authorization: `Bearer ${localStorage.getItem("UserToken")}`,
         },
         body: JSON.stringify(data),
       })
         .then((res) => res.json())
         .then((data) => {
+          console.log(data)
           if (data.success) {
             toast.show({
               placement: "top",
@@ -135,8 +144,9 @@ const ProductDetails = ({ route, navigation }) => {
               },
             });
           }
-        });
-    } else {
+        }).catch((err) =>console.log(err))
+    } 
+    else {
       toast.show({
         placement: "top",
         render: () => {
@@ -189,7 +199,7 @@ const ProductDetails = ({ route, navigation }) => {
                 <Text className="text-sm  text-gray-400">
                   {product?.category}
                 </Text>
-                <Text className="text-xl font-medium">{product?.name}</Text>
+                <Text className="text-xl font-medium">{product?.name} {user?.status}</Text>
                 <Text className="text-[16px] mt-1">{product?.courseTitle}</Text>
                 <Text className="mt-1 text-[16px]">{product?.description}</Text>
                 {/* <Text className="mt-1 text-xl  font-medium  text-orange-600">

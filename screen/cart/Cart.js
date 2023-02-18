@@ -57,10 +57,10 @@ const Cart = () => {
                 </Box>
               );
             },
-          }).catch((e)=>console.log(e))
+          })
         } else {
         }
-      });
+      }).catch((err)=>console.log(err))
   };
  
   

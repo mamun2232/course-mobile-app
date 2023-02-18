@@ -15,10 +15,15 @@ const Home = ({navigation}) => {
   const [products, setProudct] = useState([]);
   // const { navigate } = useNavigation();
   const [loadings, setLoading] = useState(false);
+  const [searchText , setSerchText] = useState(null)
+  const [cetagory , setCetagor] = useState("")
  
+  console.log(searchText)
   useEffect(() => {
     setLoading(true)
-    fetch("http://192.168.31.235:5000/api/v1/courses/course")
+    if(searchText == null){
+      
+      fetch("http://192.168.31.235:5000/api/v1/courses/course")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -29,13 +34,34 @@ const Home = ({navigation}) => {
       .catch((e)=>{
         console.log(e)
       })
-  }, []);
+    
+      
 
+    }
+    else{
+    fetch(`http://192.168.31.235:5000/api/v1/courses/course?category=${searchText}&kewword=${searchText}`)
+      .then((res) => res.json())
+      .then((data) => {
+      
+        if (data.success) {
+          setProudct(data.course);
+          setLoading(false)
+        }
+      })
+      .catch((e)=>{
+        console.log(e)
+      })
+    }
+  }, [searchText ]);
+
+  
   return (
     <ScrollView className=""  showsVerticalScrollIndicator={false}>
       <View className=" px-5 pb-4 pt-3 bg-white  sticky top-0">
         <View className="mt h-12  relative">
           <TextInput
+          value={searchText}
+           onChangeText={text => setSerchText(text)}
             className=" border h-12 rounded-lg px-4 border-slate-300"
             placeholder=" Search Your product"
           />

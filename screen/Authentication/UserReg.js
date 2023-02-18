@@ -34,7 +34,7 @@ const UserReg = ({ navigation }) => {
     const name = `${data.fistName} ${data.lastName}`;
     const userInfo = {
       name,
-      email: data.email,
+      email: data.email?.toLowerCase(),
       role: "User",
     };
     fetch("https://course-commerce-back-end.vercel.app/api/v1/user/register", {

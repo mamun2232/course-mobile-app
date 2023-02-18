@@ -29,7 +29,7 @@ const AdviserReg = ({navigation}) => {
     const name = `${data.fistName} ${data.lastName}`;
     const userInfo = {
       name,
-      email: data.email,
+      email: data?.email?.toLowerCase(),
       role: "Adviser",
       adviserUserName: data.userName,
     };

@@ -19,6 +19,7 @@ import Loading from "../Utilits/Loading";
 import { Actionsheet, useDisclose , Box, Center   } from "native-base";
 import ForgatePass from "./ForgatePass";
 import { useNavigation } from "@react-navigation/native";
+import { AsyncStorage } from "react-native";
 const UserLogin = ({ navigation }) => {
 
   const {navigate} = useNavigation()
@@ -53,6 +54,8 @@ const UserLogin = ({ navigation }) => {
           // toast.success(data.message);
           // localStorage.setItem("Token", result?.token);
           // localStorage.setItem("userId", result.user._id);
+          await AsyncStorage.setItem("Token", result.token);
+          await AsyncStorage.setItem("userId", result.user._id);
           // navigate("/login");
         } else {
           // toast.error(result.message);
