@@ -1,32 +1,21 @@
-import { View, Text, Image, ScrollView  } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import React, { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { signOut } from "firebase/auth";
 import { TouchableOpacity } from "react-native";
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from "react-native";
 import { useEffect } from "react";
+import useAdviser from "../CustomHook/useAdviser";
+import useAdmin from "../CustomHook/useAdmin";
 const Account = ({ navigation }) => {
   const [user] = useAuthState(auth);
-  const [viewAll , setViewAll] = useState(false);
-  const [token , setToken] = useState("")
+  const [viewAll, setViewAll] = useState(false);
+  const [token, setToken] = useState("");
 
-//   useEffect(()=>{
-//     reeData()
-//   },[])
-//  const reeData = async () => {
-//     try {
-//       const value = await AsyncStorage.getItem('userId');
-//       if (value !== null) {
-//         // We have data!!
-//         setToken(value);
-//       }
-//     } catch (error) {
-//       // Error retrieving data
-//     }
-//   };
- 
+  const [adviser] = useAdviser(user);
+  const [admin] = useAdmin(user);
 
   return (
     <View>
@@ -44,34 +33,31 @@ const Account = ({ navigation }) => {
         </View>
 
         <View className="pt-4 pb-4 px-6  bg-white">
-          <TouchableOpacity onPress={()=>setViewAll(!viewAll)}>
-            <View className="flex flex-row justify-end">
+          {(adviser || admin) && (
+            <TouchableOpacity onPress={() => setViewAll(!viewAll)}>
+              <View className="flex flex-row justify-end">
+                <Text className="text-right font-medium text-orange-600 uppercase">
+                  View All
+                </Text>
+                <View className="px-1">
+                  {viewAll ? (
+                    <Ionicons
+                      name="chevron-down-outline"
+                      size={22}
+                      color={"#ea580c"}
+                    ></Ionicons>
+                  ) : (
+                    <Ionicons
+                      name="chevron-up-outline"
+                      size={22}
+                      color={"#ea580c"}
+                    ></Ionicons>
+                  )}
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
 
-            <Text className="text-right font-medium text-orange-600 uppercase">
-               View All 
-             
-              
-            </Text>
-            <View className="px-1">
-              {
-                viewAll ? <Ionicons
-                name="chevron-down-outline"
-                size={22}
-                color={"#ea580c"}
-              ></Ionicons>
-              :
-              <Ionicons
-                name="chevron-up-outline"
-                size={22}
-                color={"#ea580c"}
-              ></Ionicons>
-              }
-               
-               </View>
-            </View>
-            
-          </TouchableOpacity>
-       
           <View className="flex flex-row  justify-betwen pt-3">
             <View className="w-24 ">
               <View>
@@ -124,7 +110,6 @@ const Account = ({ navigation }) => {
 
         {viewAll && (
           <View>
-           
             <View className=" pb-4 px-6 flex flex-row  justify-betwee bg-white">
               <TouchableOpacity
                 onPress={() => navigation.navigate("My Active Courses")}
@@ -144,86 +129,105 @@ const Account = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={()=> navigation.navigate("Pending Courses")} className="w-24 ">
-                <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
-                  <Ionicons
-                    name="person"
-                    size={22}
-                    color={"#ea580c"}
-                  ></Ionicons>
-                </View>
-                <Text className=" text-center text-gray-500 w-16">
-                  Pending Course
-                </Text>
-              </TouchableOpacity>
+              {admin && (
+                <>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Pending Courses")}
+                    className="w-24 "
+                  >
+                    <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
+                      <Ionicons
+                        name="person"
+                        size={22}
+                        color={"#ea580c"}
+                      ></Ionicons>
+                    </View>
+                    <Text className=" text-center text-gray-500 w-16">
+                      Pending Course
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Manage Active Course")}
+                    className="w-24"
+                  >
+                    <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
+                      <Ionicons
+                        name="navigate"
+                        size={22}
+                        color={"#ea580c"}
+                      ></Ionicons>
+                    </View>
+                    <Text className=" text-center text-gray-500 w-16">
+                      Manage Course
+                    </Text>
+                  </TouchableOpacity>
 
-              <TouchableOpacity onPress={()=> navigation.navigate("Manage Active Course")}  className="w-24">
-                <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
-                  <Ionicons
-                    name="navigate"
-                    size={22}
-                    color={"#ea580c"}
-                  ></Ionicons>
-                </View>
-                <Text className=" text-center text-gray-500 w-16">
-                  Manage Course
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={()=> navigation.navigate("Manage User")} className="w-24">
-                <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
-                  <Ionicons
-                    name="chatbubbles"
-                    size={22}
-                    color={"#ea580c"}
-                  ></Ionicons>
-                </View>
-                <Text className=" text-center text-gray-500 w-16">
-                  Manage User
-                </Text>
-              </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("Manage User")}
+                    className="w-24"
+                  >
+                    <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
+                      <Ionicons
+                        name="chatbubbles"
+                        size={22}
+                        color={"#ea580c"}
+                      ></Ionicons>
+                    </View>
+                    <Text className=" text-center text-gray-500 w-16">
+                      Manage User
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
-            <View className=" pb-4 px-6 flex flex-row  justify-betwe bg-white">
-              <View className="w-24 ">
-                <View>
+            {admin && (
+              <View className=" pb-4 px-6 flex flex-row  justify-betwe bg-white">
+                <View className="w-24 ">
+                  <View>
+                    <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
+                      <Ionicons
+                        name="code-working"
+                        size={22}
+                        color={"#ea580c"}
+                      ></Ionicons>
+                    </View>
+                    <Text className="  text-gray-500 w-16 text-center">
+                      Promo Code
+                    </Text>
+                  </View>
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Manage Payment List")}
+                  className="w-24 "
+                >
                   <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
                     <Ionicons
-                      name="code-working"
+                      name="logo-usd"
                       size={22}
                       color={"#ea580c"}
                     ></Ionicons>
                   </View>
-                  <Text className="  text-gray-500 w-16 text-center">
-                    Promo Code
+                  <Text className=" text-center text-gray-500 w-16">
+                    Payment List
                   </Text>
-                </View>
-              </View>
-
-              <TouchableOpacity onPress={()=> navigation.navigate("Manage Payment List")} className="w-24 ">
-                <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
-                  <Ionicons
-                    name="logo-usd"
-                    size={22}
-                    color={"#ea580c"}
-                  ></Ionicons>
-                </View>
-                <Text className=" text-center text-gray-500 w-16">
-                  Payment List
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={()=> navigation.navigate("Manage Contect List")} className="w-24 ">
-                <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
-                  <Ionicons
-                    name="logo-usd"
-                    size={22}
-                    color={"#ea580c"}
-                  ></Ionicons>
-                </View>
-                <Text className=" text-center text-gray-500 w-16">
-                  Contect List
-                </Text>
-              </TouchableOpacity>
-              {/* 
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Manage Contect List")}
+                  className="w-24 "
+                >
+                  <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
+                    <Ionicons
+                      name="logo-usd"
+                      size={22}
+                      color={"#ea580c"}
+                    ></Ionicons>
+                  </View>
+                  <Text className=" text-center text-gray-500 w-16">
+                    Contect List
+                  </Text>
+                </TouchableOpacity>
+                {/* 
           <View className="w-24">
             <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
               <Ionicons name="navigate" size={22} color={"#ea580c"}></Ionicons>
@@ -241,7 +245,8 @@ const Account = ({ navigation }) => {
             </View>
             <Text className=" text-center text-gray-500 w-16">Manage User</Text>
           </View> */}
-            </View>
+              </View>
+            )}
           </View>
         )}
       </View>
@@ -249,57 +254,56 @@ const Account = ({ navigation }) => {
       <ScrollView className="bg-white  h-screen">
         <View className="p-4">
           <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
-          <Text className="text-lg ">Faq</Text>
-          <View>
-          <Ionicons
+            <Text className="text-lg ">Faq</Text>
+            <View>
+              <Ionicons
                 name="chevron-forward-outline"
                 size={22}
                 color={"#ea580c"}
               ></Ionicons>
-          </View>
+            </View>
           </View>
           <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
-          <Text className="text-lg ">Terms of service</Text>
-          <View>
-          <Ionicons
+            <Text className="text-lg ">Terms of service</Text>
+            <View>
+              <Ionicons
                 name="chevron-forward-outline"
                 size={22}
                 color={"#ea580c"}
               ></Ionicons>
-          </View>
+            </View>
           </View>
           <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
-          <Text className="text-lg ">Privacy Statement</Text>
-          <View>
-          <Ionicons
+            <Text className="text-lg ">Privacy Statement</Text>
+            <View>
+              <Ionicons
                 name="chevron-forward-outline"
                 size={22}
                 color={"#ea580c"}
               ></Ionicons>
-          </View>
+            </View>
           </View>
           <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
-          <Text className="text-lg ">About Us</Text>
-          <View>
-          <Ionicons
+            <Text className="text-lg ">About Us</Text>
+            <View>
+              <Ionicons
                 name="chevron-forward-outline"
                 size={22}
                 color={"#ea580c"}
               ></Ionicons>
-          </View>
+            </View>
           </View>
           <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
-          <Text className="text-lg ">Change Password</Text>
-          <View>
-          <Ionicons
+            <Text className="text-lg ">Change Password</Text>
+            <View>
+              <Ionicons
                 name="chevron-forward-outline"
                 size={22}
                 color={"#ea580c"}
               ></Ionicons>
+            </View>
           </View>
-          </View>
-          
-          
+
           <Text onPress={() => signOut(auth)} className="text-lg">
             Singout
             {token}

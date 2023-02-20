@@ -21,6 +21,8 @@ import ManageActiveCourse from "../Account/ManageActiveCourse";
 import User from "../Account/User";
 import AllPayment from "../Account/AllPayment";
 import ContectList from "../Account/ContectList";
+import ConfromPayment from "../Home/ConfromPayment";
+import PaymentSuccess from "../Home/PaymentSuccess";
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   const [user] = useAuthState(auth);
@@ -64,6 +66,16 @@ const StackNavigation = () => {
           <Stack.Screen
             name="Payment"
             component={Payment}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Confirm Payment"
+            component={ConfromPayment}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Payment Success"
+            component={PaymentSuccess}
             options={{ headerTitleAlign: "center" }}
           />
           <Stack.Screen
