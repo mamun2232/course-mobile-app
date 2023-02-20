@@ -20,12 +20,12 @@ const Registion = () => {
        <View className="h-14 bg-white mb-3 rounded-lg border-gray-200 shadow flex flex-row items-center  px-">
         <View className={`${tabs ? "bg-orange-600 text-white": ""} w-[43vw]  flex-row justify-center py-3 rounded-l-lg`}>
           <TouchableOpacity onPress={() => setTabs(true)}>
-            <Text className="text-lg  font-medium">User Register</Text>
+            <Text className={`${tabs ? "text-white" : ""} text-lg  font-medium`}>User Register</Text>
           </TouchableOpacity>
         </View>
         <View className={`${!tabs ? "bg-orange-600 text-white": ""} w-[47vw]   flex-row justify-center py-3 rounded-r-lg`}>
           <TouchableOpacity onPress={() => setTabs(false)}>
-            <Text className="text-lg  font-medium">Adviser Register</Text>
+            <Text className={`${!tabs ? "text-white" : ""} text-lg  font-medium`}>Adviser Register</Text>
           </TouchableOpacity>
         </View>
       </View>

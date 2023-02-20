@@ -17,8 +17,15 @@ import {
 import auth from "../../firebase.init";
 import { useNavigation } from "@react-navigation/native";
 import { AsyncStorage } from "react-native";
+import { useDisclose } from "native-base";
+import ForgatePass from "./ForgatePass";
 const Adviser = ({navigation}) => {
   const {navigate} = useNavigation()
+  const {
+    isOpen,
+    onOpen,
+    onClose
+  } = useDisclose();
   
   // https://new-golf.vercel.app 
   const {
@@ -142,8 +149,15 @@ const Adviser = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </SafeAreaView>
+
         </View>
+        <TouchableOpacity onPress={()=>onOpen()}>
+            
+            <Text className="text-right mt-1 text-orange-600 font-medium">Forgate Password</Text>
+            </TouchableOpacity>
       </View>
+      
+      <ForgatePass isOpen={isOpen} onClose={onClose} />
       <Text className="mt-2  text-center text-[15px]">
         Dont Have Any Account?
         <Text onPress={() => navigate("Register")} className="text-orange-600">

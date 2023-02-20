@@ -12,8 +12,9 @@ import { useAuthState, useCreateUserWithEmailAndPassword, useUpdateProfile } fro
 import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
 import { AsyncStorage } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 const AdviserReg = ({navigation}) => {
-
+ const {navigate} = useNavigation()
   const {
     control,
     handleSubmit,
@@ -61,7 +62,7 @@ const AdviserReg = ({navigation}) => {
 
   }
   if (user) {
-    navigation?.navigate("Home");
+    navigation.navigate("Home");
   }
   return (
     <View>
@@ -225,7 +226,7 @@ const AdviserReg = ({navigation}) => {
       </View>
       <Text className="mt-2  text-center text-[15px] ">
         All Ready Register?
-        <Text onPress={() => navigation?.navigate("Login")} className="text-orange-600 ">
+        <Text onPress={() => navigate("Login")} className="text-orange-600 ">
           Please Login
         </Text>
       </Text>

@@ -25,7 +25,7 @@ const Login = () => {
           } w-[43vw]  flex-row justify-center py-3 rounded-l-lg`}
         >
           <TouchableOpacity onPress={() => setTabs(true)}>
-            <Text className="text-lg  font-medium">User Login</Text>
+            <Text className={`${tabs ? "text-white" : ""} text-lg  font-medium`}>User Login</Text>
           </TouchableOpacity>
         </View>
         <View
@@ -34,7 +34,7 @@ const Login = () => {
           } w-[47vw]   flex-row justify-center py-3 rounded-r-lg`}
         >
           <TouchableOpacity onPress={() => setTabs(false)}>
-            <Text className="text-lg  font-medium">Adviser Login</Text>
+            <Text className={`${!tabs ? "text-white" : ""} text-lg  font-medium`}>Adviser Login</Text>
           </TouchableOpacity>
         </View>
       </View>

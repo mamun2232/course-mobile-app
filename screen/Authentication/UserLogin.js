@@ -16,22 +16,25 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
-import { Actionsheet, useDisclose , Box, Center   } from "native-base";
+
 import ForgatePass from "./ForgatePass";
 import { useNavigation } from "@react-navigation/native";
 import { AsyncStorage } from "react-native";
+import { Actionsheet, Box, Center, useDisclose } from "native-base";
+import { useState } from "react";
 const UserLogin = ({ navigation }) => {
+  const [showError , setShowError] = useState(false)
+  const [messageError , setMessageError] = useState("")
 
-  const {navigate} = useNavigation()
-
+const{ navigate} = useNavigation()
   const {
     isOpen,
     onOpen,
     onClose
   } = useDisclose();
-  const [signInWithEmailAndPassword, users, loading, errorss] =
+  const [signInWithEmailAndPassword, users, loading, error] =
     useSignInWithEmailAndPassword(auth);
-  const [user, loadings, error] = useAuthState(auth);
+  const [user, loadings, errorss] = useAuthState(auth);
   const {
     control,
     handleSubmit,
@@ -39,7 +42,9 @@ const UserLogin = ({ navigation }) => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/login", {
+    setMessageError("")
+    setShowError(false)
+    fetch("http://192.168.31.235:5000/api/v1/user/login", {
       method: "POST",
       body: JSON.stringify({ email: data.email }),
       headers: {
@@ -48,8 +53,9 @@ const UserLogin = ({ navigation }) => {
     })
       .then((res) => res.json())
       .then(async (result) => {
-        console.log(data);
+       
         if (result.success) {
+          
           await signInWithEmailAndPassword(data.email, data.password);
           // toast.success(data.message);
           // localStorage.setItem("Token", result?.token);
@@ -59,32 +65,47 @@ const UserLogin = ({ navigation }) => {
           // navigate("/login");
         } else {
           // toast.error(result.message);
+          setShowError(true)
+          setMessageError(result.message)
         }
       }).catch((e)=>console.log(e))
     // reset();
     // navigate("Home");
   };
-
-  if (loading || loadings) {
-    return <Loading />;
-  }
+ 
+  console.log(error?.message)
+  // if(error?.message){
+  //   // setShowError(true)
+  //   // setMessageError(error?.message)
+  // }
+  // if (loading || loadings) {
+  //   return <Loading />;
+  // }
   if (user) {
     navigation.navigate("Home");
   }
 console.log(onOpen)
+
+
   return (
     <View>
       <View className="h-[75vh] border border-gray-200 rounded-lg p-3 bg-white">
-        <View className=" flex items-center mt-20">
+        <View className={`${showError ? "mt-12" : "mt-20"} flex items-center `}>
           <Image
             className="w-52 h-40"
             source={require("../../assets/login.png")}
           />
-          <Text className="text-2xl mt-2">Welcome Back</Text>
+          <Text className="text-2xl mt-4">Welcome Back</Text>
           <Text className="text-sm m">E-commarce App ,Happy Shopping</Text>
         </View>
+        {
+          showError && <View className="h-12 bg-red-100 rounded mt-4 flex justify-center items-center">
+          <Text className="text-red-500 font-medium">{messageError}</Text>
+          </View>
+        }
+        
 
-        <View className="mt-8">
+        <View className="mt-6">
           {/* <Text className="text-2xl font-medium">Login Now</Text> */}
           <SafeAreaView>
             <View>
@@ -152,7 +173,8 @@ console.log(onOpen)
               {/* <Button className="border h-12 rounded-lg px-4 bg-orange-600 border-slate-200 flex items-center justify-center" title="Submit" onPress={handleSubmit(onSubmit)} /> */}
             </View>
           </SafeAreaView>
-          <TouchableOpacity oPress={onOpen}>
+          <TouchableOpacity onPress={()=>onOpen()}>
+            
           <Text className="text-right mt-1 text-orange-600 font-medium">Forgate Password</Text>
           </TouchableOpacity>
         </View>
@@ -160,31 +182,19 @@ console.log(onOpen)
       </View>
       <Text className="mt-2  text-center text-[15px]">
         Dont Have Any Account?
-        <Text onPress={() => navigate("Register")} className="text-orange-600">
+        <Text onPress={() =>navigate("Register")} className="text-orange-600">
           Please Register
         </Text>
       </Text>
 
      {/* <ForgatePass isOpen={isOpen} onClose={onClose}/> */}
-     <Center>
-      {/* <Button onPress={onOpen}>Actionsheet</Button> */}
-      <Actionsheet isOpen={isOpen} onClose={onClose}>
-        <Actionsheet.Content>
-          <Box w="100%" h={60} px={4} justifyContent="center">
-            <View fontSize="16" color="gray.500" _dark={{
-            color: "gray.300"
-          }}>
-              Albums
-            </View>
-          </Box>
-          <Actionsheet.Item>Delete</Actionsheet.Item>
-          <Actionsheet.Item isDisabled>Share</Actionsheet.Item>
-          <Actionsheet.Item>Play</Actionsheet.Item>
-          <Actionsheet.Item>Favourite</Actionsheet.Item>
-          <Actionsheet.Item>Cancel</Actionsheet.Item>
-        </Actionsheet.Content>
-      </Actionsheet>
-    </Center>
+
+   
+   {
+    isOpen && <ForgatePass isOpen={isOpen} onClose={onClose} />
+   }
+     
+     
     </View>
   );
 };
