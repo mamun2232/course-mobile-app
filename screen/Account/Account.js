@@ -182,7 +182,7 @@ const Account = ({ navigation }) => {
             </View>
             {admin && (
               <View className=" pb-4 px-6 flex flex-row  justify-betwe bg-white">
-                <View className="w-24 ">
+                <TouchableOpacity onPress={() => navigation.navigate("Generate Promo Code")}  className="w-24 ">
                   <View>
                     <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
                       <Ionicons
@@ -195,7 +195,7 @@ const Account = ({ navigation }) => {
                       Promo Code
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Manage Payment List")}

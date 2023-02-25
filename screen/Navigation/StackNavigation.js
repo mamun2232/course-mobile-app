@@ -23,6 +23,7 @@ import AllPayment from "../Account/AllPayment";
 import ContectList from "../Account/ContectList";
 import ConfromPayment from "../Home/ConfromPayment";
 import PaymentSuccess from "../Home/PaymentSuccess";
+import PromoCode from "../Account/PromoCode";
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
   const [user] = useAuthState(auth);
@@ -121,6 +122,11 @@ const StackNavigation = () => {
           <Stack.Screen
             name="Manage Contect List"
             component={ContectList}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Generate Promo Code"
+            component={PromoCode}
             options={{ headerTitleAlign: "center" }}
           />
         </>

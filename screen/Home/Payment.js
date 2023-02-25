@@ -5,9 +5,10 @@ import { SafeAreaView } from "react-native";
 import { TouchableOpacity , Image} from "react-native";
 import { TextInput } from "react-native";
 import { WebView } from 'react-native-webview';
- 
+import { Box, Toast } from "native-base";
 const Payment = ({navigation}) => {
   const [cost , setCost] = useState(30)
+  const [isDiscount, setIsDiscountCode] = useState(false);
       const {
             control,
             handleSubmit,
@@ -15,9 +16,66 @@ const Payment = ({navigation}) => {
             formState: { errors },
           } = useForm();
         
-          const onSubmit = (data) => {
-            console.log(data);
-            // navigation.navigate("Payment")
+          const onSubmit = ({code}) => {
+            fetch(`https://error-ten.vercel.app/api/v1/courses/course/validatePromo/${code}`,
+              {
+                method: "Get",
+                headers: {
+                  "Content-type": "application/json",
+                }
+              }
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data)
+                if (data.success) {
+                  
+                  const tk = (data.discount.amount * cost) / 100;
+                  setCost(cost - tk);
+                  setIsDiscountCode(true);
+                  reset()
+               
+                  Toast.show({
+                    placement: "top",
+                    render: () => {
+                      return (
+                        <Box
+                          bg="#f97316"
+                          color="#fff"
+                          px="2"
+                          py="2"
+                          mt={16}
+                          rounded="sm"
+                          mb={5}
+                        >
+                          <Text className="text-white"> {`congaculation you have ${data?.discount?.amount}% Descount.Happy Shopping`}</Text>
+                        </Box>
+                      );
+                    },
+                  })
+                } else {
+                  Toast.show({
+                    placement: "top",
+                    render: () => {
+                      return (
+                        <Box
+                          bg="#f97316"
+                          color="#fff"
+                          px="2"
+                          py="2"
+                          mt={16}
+                          rounded="sm"
+                          mb={5}
+                        >
+                          <Text className="text-white"> {`Sorry Promo code Dont Match`}</Text>
+                        </Box>
+                      );
+                    },
+                  })
+                 
+                 reset()
+                }
+              }).catch((err) => console.log(err))
           };
       
   
@@ -62,7 +120,7 @@ const Payment = ({navigation}) => {
                   placeholder="Enter Your Promo code"
                 />
               )}
-              name="promoCode"
+              name="code"
             />
 
             <View className=" absolute mt-1 right-0 px-1">
