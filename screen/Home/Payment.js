@@ -6,18 +6,47 @@ import { TouchableOpacity , Image} from "react-native";
 import { TextInput } from "react-native";
 import { WebView } from 'react-native-webview';
 import { Box, Toast } from "native-base";
+import { AsyncStorage } from "react-native";
+import { useEffect } from 'react';
+
 const Payment = ({navigation}) => {
   const [cost , setCost] = useState(30)
   const [isDiscount, setIsDiscountCode] = useState(false);
+  const [user, setUserId] = useState("");
+  const [shippingInfo, setshippingInfo] = useState({});
+  const [orderItems, setOrderItems] = useState({});
+  console.log(orderItems)
       const {
             control,
             handleSubmit,
             reset,
             formState: { errors },
           } = useForm();
+
+          useEffect(()=>{
+            reeData()
+          },[])
+
+          const reeData = async () => {
+            try {
+              const value = await AsyncStorage.getItem("userId");
+              const shipping = await AsyncStorage.getItem("shippingInfo");
+              const order = await AsyncStorage.getItem("cart");
+              const shippingD = JSON.parse(shipping)
+              const orderItem = JSON.parse(order)
+              if (value !== null) {
+                // We have data!!
+                setUserId(value);
+                setshippingInfo(shippingD);
+                setOrderItems(orderItem)
+              }
+            } catch (error) {
+              // Error retrieving data
+            }
+          };
         
           const onSubmit = ({code}) => {
-            fetch(`https://error-ten.vercel.app/api/v1/courses/course/validatePromo/${code}`,
+            fetch(`http://192.168.31.235:5000/api/v1/courses/course/validatePromo/${code}`,
               {
                 method: "Get",
                 headers: {
@@ -78,6 +107,75 @@ const Payment = ({navigation}) => {
               }).catch((err) => console.log(err))
           };
       
+          const getFreeCourseAccessHendler = () => {
+            const data = {
+              shippingInfo,
+              orderItems,
+            };
+        
+            fetch(`http://192.168.31.235:5000/api/v1/order/new`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                // authorization: `Bearer ${localStorage.getItem("UserToken")}`,
+              },
+              body: JSON.stringify(data),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                if (data.success) {
+                }
+              }).catch((err) => console.log(err))
+        
+            const paymentInfo = {
+              orderItems,
+              // name: user?.displayName,
+              // email: user?.email,
+              paidPrice: cost,
+              shippingInfo,
+              emails: user,
+            };
+            fetch(`http://192.168.31.235:5000/api/v1/order/post`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                // authorization: `Bearer ${localStorage.getItem("UserToken")}`,
+              },
+              body: JSON.stringify(paymentInfo),
+            })
+              .then((res) => res.json())
+              .then((result) => {
+                console.log(result);
+                
+                Toast.show({
+                  placement: "top",
+                  render: () => {
+                    return (
+                      <Box
+                        bg="#f97316"
+                        color="#fff"
+                        px="2"
+                        py="2"
+                        mt={16}
+                        rounded="sm"
+                        mb={5}
+                      >
+                        <Text className="text-white">Congratulation All Courses Accesss Successfull</Text>
+                      </Box>
+                    );
+                  },
+                })
+                // localStorage.removeItem("SubTotalPrice");
+                // // localStorage.removeItem("ShippingPrice");
+                // localStorage.removeItem("TotalCost");
+                // localStorage.removeItem("Discount");
+                // localStorage.removeItem("Cart");
+                // disPatch(cartClear());
+                // disPatch(clearShippingTotalCostDiscount());
+                // disPatch(clearSubTotal());
+              }).catch((err) => console.log(err))
+          };
   
   return (
       <View className="  flex justify-center px-4">
@@ -137,6 +235,17 @@ const Payment = ({navigation}) => {
           
 
           <View className="mt-20">
+            {
+              parseInt(cost) == 0 ? <TouchableOpacity
+              // title="Submit"
+              onPress={()=>getFreeCourseAccessHendler()}
+              // onPress={() => navigate("Home")}
+              className=" border h-12 rounded-lg px-4 bg-orange-600 border-slate-200 flex items-center justify-center "
+            >
+              <Text className="text-white  font-medium">Access Course</Text>
+            </TouchableOpacity>
+
+            :
             <TouchableOpacity
               title="Submit"
               onPress={()=>navigation.navigate("Confirm Payment", {cost})}
@@ -145,6 +254,8 @@ const Payment = ({navigation}) => {
             >
               <Text className="text-white  font-medium">Pay With Paypal</Text>
             </TouchableOpacity>
+            }
+            
           </View>
         </SafeAreaView>
       </View>
