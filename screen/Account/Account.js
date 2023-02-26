@@ -9,6 +9,8 @@ import { AsyncStorage } from "react-native";
 import { useEffect } from "react";
 import useAdviser from "../CustomHook/useAdviser";
 import useAdmin from "../CustomHook/useAdmin";
+import { useDisclose } from "native-base";
+import ForgatePass from "../Authentication/ForgatePass";
 const Account = ({ navigation }) => {
   const [user] = useAuthState(auth);
   const [viewAll, setViewAll] = useState(false);
@@ -16,7 +18,11 @@ const Account = ({ navigation }) => {
 
   const [adviser] = useAdviser(user);
   const [admin] = useAdmin(user);
-
+  const {
+    isOpen,
+    onOpen,
+    onClose
+  } = useDisclose();
   return (
     <View>
       <View className="pb-4">
@@ -58,7 +64,7 @@ const Account = ({ navigation }) => {
             </TouchableOpacity>
           )}
 
-          <View className="flex flex-row  justify-betwen pt-3">
+          <View className="flex flex-row  justify-betwen pt-2">
             <View className="w-24 ">
               <View>
                 <TouchableOpacity
@@ -77,12 +83,12 @@ const Account = ({ navigation }) => {
               </View>
             </View>
 
-            <View className="w-24 ">
+            <TouchableOpacity onPress={()=> navigation.navigate("Contact Now")} className="w-24 ">
               <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
-                <Ionicons name="person" size={22} color={"#ea580c"}></Ionicons>
+                <Ionicons name="call-outline" size={22} color={"#ea580c"}></Ionicons>
               </View>
-              <Text className=" text-center text-gray-500 w-16">Profile</Text>
-            </View>
+              <Text className=" text-center text-gray-500 w-16">Contact</Text>
+            </TouchableOpacity>
 
             <View className="w-24">
               <View className="w-16 h-16 rounded-full bg-slate-200 flex  items-center justify-center">
@@ -293,7 +299,7 @@ const Account = ({ navigation }) => {
               ></Ionicons>
             </View>
           </View>
-          <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+          <TouchableOpacity onPress={()=>onOpen()} className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
             <Text className="text-lg ">Change Password</Text>
             <View>
               <Ionicons
@@ -302,7 +308,19 @@ const Account = ({ navigation }) => {
                 color={"#ea580c"}
               ></Ionicons>
             </View>
-          </View>
+          </TouchableOpacity>
+
+          {/* subcribe route is here  */}
+          {/* <View className=" h-10 border-b border-gray-200  flex flex-row justify-between ">
+            <Text className="text-lg ">Subcribe Now</Text>
+            <View>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={22}
+                color={"#ea580c"}
+              ></Ionicons>
+            </View>
+          </View> */}
 
           <Text onPress={() => signOut(auth)} className="text-lg">
             Singout
@@ -310,6 +328,12 @@ const Account = ({ navigation }) => {
           </Text>
         </View>
       </ScrollView>
+
+
+      {/* forgate model open is here  */}
+      {
+    isOpen && <ForgatePass isOpen={isOpen} onClose={onClose} />
+   }
     </View>
   );
 };

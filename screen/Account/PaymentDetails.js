@@ -93,7 +93,7 @@ const PaymentDetails = () => {
           </View>
           <View className="flex flex-row gap-5">
             <Text className=" w-[30vw]">{payment.status}</Text>
-            <Text className="">Paid</Text>
+            <Text className={`${payment?.paidPrice == 0 ? "text-red-600 font-medium" : " font-medium text-gray-800"}`}>{payment?.paidPrice == 0 ? "Access Free" : "Paid"}</Text>
           </View>
           <View className="flex flex-row gap-5">
             <Text className=" w-[30vw]">Product Id</Text>

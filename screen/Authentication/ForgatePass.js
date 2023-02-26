@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useState } from 'react';
-
+import { sendPasswordResetEmail } from "firebase/auth";
 const ForgatePass = ({isOpen , onClose}) => {
   const [sendingTextShow , setSendingTextShow] = useState("")
   const {
@@ -16,6 +16,10 @@ const ForgatePass = ({isOpen , onClose}) => {
   } = useForm();
   const onSubmit = (data) => {
     setSendingTextShow("Dear User, Please Chack Email")
+    // sendPasswordResetEmail(auth, email).then(() => {
+    //   toast.success("Reset password send email");
+    //   handleClose();
+    // });
   }
   return (
     <Center>

@@ -12,6 +12,7 @@ export default function UserList() {
       const [fetchData, setFetch] = useState(false);
       const [isOpen, setIsOpen] = useState(false);
       const [id, setId] = useState("");
+      
       useEffect(()=>{
             fetch(`http://192.168.31.235:5000/api/v1/user/user`)
             .then((res) => res.json())
@@ -63,8 +64,12 @@ export default function UserList() {
           const makeAdminHendler = (id) =>{
             setIsOpen(true)
             setId(id)
+          
+
            
           }
+
+
   return (
       <>
       {user.length !== 0 ? (

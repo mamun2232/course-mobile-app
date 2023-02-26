@@ -308,18 +308,7 @@ const ProductDetails = ({ route, navigation }) => {
                     </View>
                   </View>
                 </View>
-                {/* <View className="pb-10">
-              <TouchableOpacity className=" w-full  bg-orange-600 mt-5 h-14 rounded-3xl items-center justify-center">
-                <Text className="text-white text-lg font-medium">
-                  Go Location
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity className=" w-full  bg-orange-600 mt-1 h-14 rounded-3xl items-center justify-center">
-                <Text className="text-white text-lg font-medium">
-                  Use Discount
-                </Text>
-              </TouchableOpacity>
-            </View> */}
+                
               </ScrollView>
             </View>
           )}
@@ -341,7 +330,7 @@ const ProductDetails = ({ route, navigation }) => {
             </View>
             <View className="w-[42vw]">
               <TouchableOpacity
-                onPress={() => paymentRequsterHendler()}
+                onPress={() => navigation.navigate("Payment Success")}
                 className="  bg-orange-600  h-12 rounded-xl items-center justify-center"
               >
                 <Text className="text-white text-lg font-medium">

@@ -14,8 +14,8 @@ const Payment = ({navigation}) => {
   const [isDiscount, setIsDiscountCode] = useState(false);
   const [user, setUserId] = useState("");
   const [shippingInfo, setshippingInfo] = useState({});
-  const [orderItems, setOrderItems] = useState({});
-  console.log(orderItems)
+  const [orders, setOrderItems] = useState({});
+  console.log(orders)
       const {
             control,
             handleSubmit,
@@ -108,6 +108,10 @@ const Payment = ({navigation}) => {
           };
       
           const getFreeCourseAccessHendler = () => {
+            const orderItems = {
+              id: orders?._id,
+              quantity: orders?.Stock
+            }
             const data = {
               shippingInfo,
               orderItems,
