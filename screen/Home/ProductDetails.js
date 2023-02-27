@@ -64,37 +64,7 @@ const ProductDetails = ({ route, navigation }) => {
     }
   };
 
-  // const discountHendler = async () => {
-  //   toast.show({
-  //     placement: "top",
-  //     render: () => {
-  //       return (
-  //         <Box
-  //           bg="#f97316"
-  //           color="#fff"
-  //           px="2"
-  //           py="2"
-  //           mt={16}
-  //           rounded="sm"
-  //           mb={5}
-  //         >
-  //           <Text className="text-white">
-  //             You need to subscribe to use this discount
-  //           </Text>
-  //           <Text
-  //             className="text-white font-medium text-center"
-  //             onPress={() => navigation.navigate("Personal Information")}
-  //           >
-  //             Use Discount
-  //           </Text>
-  //         </Box>
-  //       );
-  //     },
-  //   });
-  //   const jsonValue = JSON.stringify(product);
-  //   await AsyncStorage.setItem("cart", jsonValue);
-  // };
-
+  
   const paymentRequsterHendler = async () => {
     if (user?.status === "PAID") {
    
@@ -199,7 +169,7 @@ const ProductDetails = ({ route, navigation }) => {
                 <Text className="text-sm  text-gray-400">
                   {product?.category}
                 </Text>
-                <Text className="text-xl font-medium">{product?.name} {user?.status}</Text>
+                <Text className="text-xl font-medium">{product?.name}</Text>
                 <Text className="text-[16px] mt-1">{product?.courseTitle}</Text>
                 <Text className="mt-1 text-[16px]">{product?.description}</Text>
                 {/* <Text className="mt-1 text-xl  font-medium  text-orange-600">
@@ -208,19 +178,19 @@ const ProductDetails = ({ route, navigation }) => {
             <Text className="">Stock available: {product?.Stock} PSC</Text> */}
 
                 <View className="mt-3">
-                  <Text className="text-xl font-medium">
+                   <Text className="text-xl font-medium">
                     Other Information:
-                  </Text>
+                  </Text> 
                   <Text className=" text-[16px] text-gray-600">
                     <Text className="text-gray-900  font-medium">
                       Course About:
-                    </Text>{" "}
+                    </Text>
                     {product?.about}
                   </Text>
-                  <Text className="mt-1 text-[16px] text-gray-600">
+                 {/*  <Text className="mt-1 text-[16px] text-gray-600">
                     <Text className="text-gray-900  font-medium">
                       Course Goal:
-                    </Text>{" "}
+                    </Text>
                     {product?.goal}
                   </Text>
                   <Text className="mt-1 text-[16px] text-gray-600">
@@ -228,13 +198,10 @@ const ProductDetails = ({ route, navigation }) => {
                       Course Mession:
                     </Text>{" "}
                     {product?.mission}
-                  </Text>
+                  </Text> */}
                 </View>
                 <View className="mt-3 pb-10">
-                  <Text className="text-xl font-medium">
-                    Extera Information:
-                  </Text>
-
+        
                   <View>
                     <View
                       className={`${
@@ -330,7 +297,7 @@ const ProductDetails = ({ route, navigation }) => {
             </View>
             <View className="w-[42vw]">
               <TouchableOpacity
-                onPress={() => navigation.navigate("Payment Success")}
+                onPress={() => paymentRequsterHendler()}
                 className="  bg-orange-600  h-12 rounded-xl items-center justify-center"
               >
                 <Text className="text-white text-lg font-medium">

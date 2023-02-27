@@ -81,7 +81,7 @@ const Payment = ({navigation}) => {
                         </Box>
                       );
                     },
-                  })
+                  }).catch((err) => console.log(err))
                 } else {
                   Toast.show({
                     placement: "top",

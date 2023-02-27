@@ -25,9 +25,12 @@ import ConfromPayment from "../Home/ConfromPayment";
 import PaymentSuccess from "../Home/PaymentSuccess";
 import PromoCode from "../Account/PromoCode";
 import ContactNow from "../Account/ContactNow";
+import Loading from "../Utilits/Loading";
 const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
-  const [user] = useAuthState(auth);
+  const [user , loading] = useAuthState(auth);
+
+  if(loading) return <Loading/>
   return (
     <Stack.Navigator initialRouteName="Login">
       {!user ? (

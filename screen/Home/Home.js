@@ -31,8 +31,8 @@ const Home = ({navigation}) => {
           setLoading(false)
         }
       })
-      .catch((e)=>{
-        console.log(e)
+      .catch((err)=>{
+        console.log(err)
       })
     
       

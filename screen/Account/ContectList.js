@@ -5,6 +5,7 @@ import { Image } from "react-native";
 import { ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {  Center, useToast } from "native-base";
 const ContectList = () => {
       const [contect, setContect] = useState([]);
       const [loading, setLoading] = useState(false);
@@ -37,15 +38,27 @@ const ContectList = () => {
           .then((data) => {
             if (data.success) {
               setReFetch(true);
-              swal({
-                title: "Message Delete Successfull",
-                text: "Thank you Sir",
-                icon: "success",
-                buttons: [false],
+              Toast.show({
+                placement: "top",
+                render: () => {
+                  return (
+                    <Box
+                      bg="#f97316"
+                      color="#fff"
+                      px="2"
+                      py="2"
+                      mt={16}
+                      rounded="sm"
+                      mb={5}
+                    >
+                      <Text className="text-white">Contect Delete Successfull</Text>
+                    </Box>
+                  );
+                },
               });
             } else {
             }
-          });
+          }).catch((err) => console.log(err))
       };
     
   return (
@@ -85,7 +98,7 @@ const ContectList = () => {
                       {/* <Text className="text-[16px] font-medium">{Stock} limit</Text> */}
 
                       <TouchableOpacity
-                        onPress={() => deleteHenedler(_id)}
+                        onPress={() => contectDeleteHendeler(_id)}
                         className="w-12 h-12 rounded-full bg-slate-200 flex  items-center justify-center mt-2"
                       >
                         <Ionicons

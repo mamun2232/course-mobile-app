@@ -18,6 +18,7 @@ import auth from "../../firebase.init";
 import Loading from "../Utilits/Loading";
 import { useNavigation } from "@react-navigation/native";
 import { AsyncStorage } from "react-native";
+
 const UserReg = ({ navigation }) => {
   const { navigate } = useNavigation();
   const {
@@ -31,31 +32,38 @@ const UserReg = ({ navigation }) => {
     useCreateUserWithEmailAndPassword(auth);
   const [updateProfile, updating, Uerror] = useUpdateProfile(auth);
   const onSubmit = (data) => {
-    const name = `${data.fistName} ${data.lastName}`;
-    const userInfo = {
-      name,
-      email: data.email?.toLowerCase(),
-      role: "User",
-    };
-    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/register", {
-      method: "POST",
-      body: JSON.stringify(userInfo),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((res) => res.json())
-      .then(async (result) => {
-        console.log(result);
-        if (result.success) {
-          await createUserWithEmailAndPassword(data.email, data.password);
-          await updateProfile({ displayName: name });
-          await AsyncStorage.setItem("Token", result.token);
-          await AsyncStorage.setItem("userId", result.user._id);
-        } else {
-        }
+    try{
+      const name = `${data.fistName} ${data.lastName}`;
+      const userInfo = {
+        name,
+        email: data.email?.toLowerCase(),
+        role: "User",
+      };
+      fetch("http://192.168.31.235:5000/api/v1/user/register", {
+        method: "POST",
+        body: JSON.stringify(userInfo),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
       })
-      .catch((error) => console.log("fetch error:", error));
+        .then((res) => res.json())
+        .then(async (result) => {
+          console.log(result);
+          if (result.success) {
+            await createUserWithEmailAndPassword(data.email, data.password);
+            await updateProfile({ displayName: name });
+            await AsyncStorage.setItem("Token", result.token);
+            await AsyncStorage.setItem("userId", result.user._id);
+          } else {
+          }
+        })
+        .catch((error) => console.log("fetch error:", error));
+    }
+    catch(err){
+      console.log(err)
+
+    }
+   
 
     // navigate("Home")
   };

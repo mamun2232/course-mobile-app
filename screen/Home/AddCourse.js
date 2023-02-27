@@ -94,7 +94,7 @@ const AddCourse = () => {
   
  
   const onSubmit = async (data) => {
-    
+    const uri = imageUri.uri.split('/').pop()
     const lat = parseFloat(data?.courseLocationLat);
     const log = parseFloat(data?.courseLocation);
 
@@ -107,7 +107,9 @@ const AddCourse = () => {
     myForm.append("email", user?.email);
     myForm.append("courseTitle", data.courseTitle);
     // // myForm.append("user", userId);
+    // myForm.append('images', { uri: imageUri.uri, name: 'image.jpg', type: 'image/jpeg' });
     myForm.append("images", imageUri.uri);
+    
     myForm.append("about", data.about);
     // myForm.append("mission", data.mission);
     // myForm.append("goal", data.goal);
@@ -129,6 +131,7 @@ const AddCourse = () => {
       },
     })
       .then((res) => {
+        console.log(res)
         setImageUri({});
         setboxOneImage({});
         setTowOneImage({});

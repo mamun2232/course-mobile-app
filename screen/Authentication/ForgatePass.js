@@ -6,20 +6,27 @@ import { TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { sendPasswordResetEmail } from "firebase/auth";
+import auth from '../../firebase.init';
+import { useAuthState } from 'react-firebase-hooks/auth';
 const ForgatePass = ({isOpen , onClose}) => {
+  const [user] = useAuthState(auth)
   const [sendingTextShow , setSendingTextShow] = useState("")
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
-    setSendingTextShow("Dear User, Please Chack Email")
-    // sendPasswordResetEmail(auth, email).then(() => {
-    //   toast.success("Reset password send email");
-    //   handleClose();
-    // });
+  } = useForm({defaultValues: {
+    email: user?.email
+  }});
+  const onSubmit = ({email}) => {
+    
+    sendPasswordResetEmail(auth, email).then(() => {
+      
+      setSendingTextShow("Password reset email sent")
+    }).catch((error) =>{
+      setSendingTextShow(error)
+    })
   }
   return (
     <Center>
@@ -28,7 +35,7 @@ const ForgatePass = ({isOpen , onClose}) => {
       <Actionsheet.Content>
         
         <Actionsheet.Item>
-          <View className="h-[220px]">
+          <View className="h-[60vh]">
             <Text className="text-[16px] font-medium">Hey, You Can Change Password?</Text>
             <View className="mt-5 w-full">
                   <Text className="">Email</Text>
@@ -53,7 +60,7 @@ const ForgatePass = ({isOpen , onClose}) => {
                         placeholder="Enter Your Email"
                       />
                     )}
-                    name="password"
+                    name="email"
                   />
                 </View>
                 <View className="mt-3">

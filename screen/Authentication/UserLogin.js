@@ -20,18 +20,15 @@ import Loading from "../Utilits/Loading";
 import ForgatePass from "./ForgatePass";
 import { useNavigation } from "@react-navigation/native";
 import { AsyncStorage } from "react-native";
+
 import { Actionsheet, Box, Center, useDisclose } from "native-base";
 import { useState } from "react";
 const UserLogin = ({ navigation }) => {
-  const [showError , setShowError] = useState(false)
-  const [messageError , setMessageError] = useState("")
+  const [showError, setShowError] = useState(false);
+  const [messageError, setMessageError] = useState("");
 
-const{ navigate} = useNavigation()
-  const {
-    isOpen,
-    onOpen,
-    onClose
-  } = useDisclose();
+  const { navigate } = useNavigation();
+  const { isOpen, onOpen, onClose } = useDisclose();
   const [signInWithEmailAndPassword, users, loading, error] =
     useSignInWithEmailAndPassword(auth);
   const [user, loadings, errorss] = useAuthState(auth);
@@ -42,50 +39,54 @@ const{ navigate} = useNavigation()
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    setMessageError("")
-    setShowError(false)
-    fetch("http://192.168.31.235:5000/api/v1/user/login", {
-      method: "POST",
-      body: JSON.stringify({ email: data.email }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((res) => res.json())
-      .then(async (result) => {
-       
-        if (result.success) {
-          
-          await signInWithEmailAndPassword(data.email, data.password);
-          // toast.success(data.message);
-          // localStorage.setItem("Token", result?.token);
-          // localStorage.setItem("userId", result.user._id);
-          await AsyncStorage.setItem("Token", result.token);
-          await AsyncStorage.setItem("userId", result.user._id);
-          // navigate("/login");
-        } else {
-          // toast.error(result.message);
-          setShowError(true)
-          setMessageError(result.message)
-        }
-      }).catch((e)=>console.log(e))
+    try {
+      setMessageError("");
+      setShowError(false);
+      fetch("http://192.168.31.235:5000/api/v1/user/login", {
+        method: "POST",
+        body: JSON.stringify({ email: data.email }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then(async (result) => {
+          if (result.success) {
+            await signInWithEmailAndPassword(data.email, data.password);
+            // toast.success(data.message);
+            // localStorage.setItem("Token", result?.token);
+            // localStorage.setItem("userId", result.user._id);
+            await AsyncStorage.setItem("Token", result.token);
+            await AsyncStorage.setItem("userId", result.user._id);
+            // navigate("/login");
+          } else {
+            // toast.error(result.message);
+            setShowError(true);
+            setMessageError(result.message);
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(et);
+    }
+
     // reset();
     // navigate("Home");
   };
+//  if (loading || loadings) {
+//     return <Loading />;
+//   }
+  // if(error ||  errorss){ 
+  //   console.log(error.message)
+  //   setMessageError(error?.message || errors.message)
+    
+  //  return setShowError(true)
+  // }
  
-  console.log(error?.message)
-  // if(error?.message){
-  //   // setShowError(true)
-  //   // setMessageError(error?.message)
-  // }
-  // if (loading || loadings) {
-  //   return <Loading />;
-  // }
   if (user) {
-    navigation.navigate("Home");
+    navigate.navigate("Home");
   }
-console.log(onOpen)
-
+  console.log(onOpen);
 
   return (
     <View>
@@ -98,12 +99,11 @@ console.log(onOpen)
           <Text className="text-2xl mt-4">Welcome Back</Text>
           <Text className="text-sm m">E-commarce App ,Happy Shopping</Text>
         </View>
-        {
-          showError && <View className="h-12 bg-red-100 rounded mt-4 flex justify-center items-center">
-          <Text className="text-red-500 font-medium">{messageError}</Text>
+        {showError && (
+          <View className="h-12 bg-red-100 rounded mt-4 flex justify-center items-center">
+            <Text className="text-red-500 font-medium">{messageError}</Text>
           </View>
-        }
-        
+        )}
 
         <View className="mt-6">
           {/* <Text className="text-2xl font-medium">Login Now</Text> */}
@@ -173,28 +173,23 @@ console.log(onOpen)
               {/* <Button className="border h-12 rounded-lg px-4 bg-orange-600 border-slate-200 flex items-center justify-center" title="Submit" onPress={handleSubmit(onSubmit)} /> */}
             </View>
           </SafeAreaView>
-          <TouchableOpacity onPress={()=>onOpen()}>
-            
-          <Text className="text-right mt-1 text-orange-600 font-medium">Forgate Password</Text>
+          <TouchableOpacity onPress={() => onOpen()}>
+            <Text className="text-right mt-1 text-orange-600 font-medium">
+              Forgate Password
+            </Text>
           </TouchableOpacity>
         </View>
-        
       </View>
       <Text className="mt-2  text-center text-[15px]">
         Dont Have Any Account?
-        <Text onPress={() =>navigate("Register")} className="text-orange-600">
+        <Text onPress={() => navigate("Register")} className="text-orange-600">
           Please Register
         </Text>
       </Text>
 
-     {/* <ForgatePass isOpen={isOpen} onClose={onClose}/> */}
+      {/* <ForgatePass isOpen={isOpen} onClose={onClose}/> */}
 
-   
-   {
-    isOpen && <ForgatePass isOpen={isOpen} onClose={onClose} />
-   }
-     
-     
+      {isOpen && <ForgatePass isOpen={isOpen} onClose={onClose} />}
     </View>
   );
 };

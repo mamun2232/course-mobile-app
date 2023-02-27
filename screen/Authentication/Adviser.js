@@ -38,28 +38,34 @@ const Adviser = ({navigation}) => {
     useSignInWithEmailAndPassword(auth);
   const [user, loadings, error] = useAuthState(auth);
   const onSubmit = (data) => {
-    fetch("https://course-commerce-back-end.vercel.app/api/v1/user/login", {
-      method: "POST",
-      body: JSON.stringify({ email: data.email }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((res) => res.json())
-      .then(async (result) => {
-        console.log(data);
-        if (result.success) {
-          await signInWithEmailAndPassword(data.email, data.password);
-          // toast.success(data.message);
-          // localStorage.setItem("Token", result?.token);
-          // localStorage.setItem("userId", result.user._id);
-          await AsyncStorage.setItem("Token", result.token);
-          await AsyncStorage.setItem("userId", result.user._id);
-          // navigate("/login");
-        } else {
-          // toast.error(result.message);
-        }
-      }).catch((e)=>console.log(e))
+    try{
+      fetch("http://192.168.31.235:5000/api/v1/user/login", {
+        method: "POST",
+        body: JSON.stringify({ email: data.email }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then(async (result) => {
+          console.log(data);
+          if (result.success) {
+            await signInWithEmailAndPassword(data.email, data.password);
+            // toast.success(data.message);
+            // localStorage.setItem("Token", result?.token);
+            // localStorage.setItem("userId", result.user._id);
+            await AsyncStorage.setItem("Token", result.token);
+            await AsyncStorage.setItem("userId", result.user._id);
+            // navigate("/login");
+          } else {
+            // toast.error(result.message);
+          }
+        }).catch((err)=>console.log(err))
+    }
+    catch(err){
+      console.log(err)
+    }
+   
     // reset();
     // navigate("Home");
   };
