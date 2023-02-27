@@ -183,7 +183,7 @@ const Payment = ({navigation}) => {
   
   return (
       <View className="  flex justify-center px-4">
-      <View className="h-[84%] bg-white mt-10  rounded-lg shadow-lg p-4">
+      <View className="h-[90%] bg-white mt-10  rounded-lg shadow-lg p-4">
         <View className=" flex items-center">
         <Image
             className="w-52 h-40"

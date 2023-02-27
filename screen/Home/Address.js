@@ -29,7 +29,7 @@ const Address = ({navigation}) => {
   };
   return (
     <View className="  flex justify-center px-4">
-      <View className="h-[77%] bg-white mt-10  rounded-lg shadow-lg p-4">
+      <View className="h-[90%] bg-white mt-10  rounded-lg shadow-lg p-4">
         <Text className="text-lg text-center">Fill this form</Text>
         <SafeAreaView className="mt-5"> 
           <View>

@@ -157,7 +157,7 @@ const SallesList = ({ route }) => {
       ) : (
         <View className=" flex  justify-center items-center h-screen  rounded-lg shadow">
           <Image
-            className=" w-72 h-80"
+            className="w-[90vw] h-96 rounded-lg"
             source={require("../../assets/noAvailbe.gif")}
           />
         </View>

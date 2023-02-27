@@ -115,13 +115,13 @@ const ActiveCourse = ({ navigation }) => {
                 <View className="w-[33.33vw] flex   justify-center">
                   {/* <Text className="text-[16px] font-medium">{Stock} limit</Text> */}
 
-                  <View className="w-12 h-12 rounded-full bg-slate-200 flex  items-center justify-center">
+                  <TouchableOpacity onPress={()=>deleteHenedler(_id)} className="w-12 h-12 rounded-full bg-slate-200 flex  items-center justify-center">
                     <Ionicons
                       name="trash"
                       size={22}
                       color={"#ea580c"}
                     ></Ionicons>
-                  </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             ))}
@@ -130,7 +130,7 @@ const ActiveCourse = ({ navigation }) => {
       ) : (
         <View className=" flex  justify-center items-center h-screen  rounded-lg shadow">
           <Image
-            className=" w-72 h-80"
+            className="w-[90vw] h-96 rounded-lg"
             source={require("../../assets/noAvailbe.gif")}
           />
         </View>

@@ -9,7 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { Box, Center, useToast } from "native-base";
+import { Box, Center, Toast } from "native-base";
 
 const AddCourse = () => {
   const [imageUri, setImageUri] = useState({});
@@ -35,6 +35,7 @@ const AddCourse = () => {
       console.log(error);
     }
   };
+
   const handleboxOneImageSelection = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -94,7 +95,7 @@ const AddCourse = () => {
   
  
   const onSubmit = async (data) => {
-    const uri = imageUri.uri.split('/').pop()
+    
     const lat = parseFloat(data?.courseLocationLat);
     const log = parseFloat(data?.courseLocation);
 
@@ -107,23 +108,23 @@ const AddCourse = () => {
     myForm.append("email", user?.email);
     myForm.append("courseTitle", data.courseTitle);
     // // myForm.append("user", userId);
-    // myForm.append('images', { uri: imageUri.uri, name: 'image.jpg', type: 'image/jpeg' });
+
     myForm.append("images", imageUri.uri);
-    
+
     myForm.append("about", data.about);
     // myForm.append("mission", data.mission);
     // myForm.append("goal", data.goal);
     myForm.append("lat", lat);
     myForm.append("log", log);
-    // myForm.append("boxOneImage", boxOneImage);
+    myForm.append("boxOneImage", boxOneImage.uri);
     myForm.append("boxOneTitle", data.boxOneTitle);
-    // myForm.append("boxTwoImage", boxTwoImage);
+    myForm.append("boxTwoImage", boxTwoImage.uri);
     myForm.append("boxTwoTitle", data.boxTwoTitle);
-    // myForm.append("boxThreeImage", boxThreeImage);
+    myForm.append("boxThreeImage", boxThreeImage.uri);
     myForm.append("boxThreeTitle", data.boxThreeTitle);
     await axios({
       method: "post",
-      url: "http://192.168.31.235:5000/api/v1/courses/course",
+      url: "http://192.168.31.235:5000/api/v1/courses/course/app",
       data: myForm,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -137,7 +138,7 @@ const AddCourse = () => {
         setTowOneImage({});
         setThreeeImage({});
         reset();
-        toast.show({
+        Toast.show({
           placement: "top",
           render: () => {
             return (
@@ -162,7 +163,7 @@ const AddCourse = () => {
   };
 
   return (
-    <View className="px-2 mt-5">
+    <View className="px-2 mt-3">
       {/* <View className=" h-24 bg-white rounded-lg shadow-md">
         <View className="px-4">
           <Text className=" text-xl font-medium mt-3 py-0">Hey, Mamun</Text>
