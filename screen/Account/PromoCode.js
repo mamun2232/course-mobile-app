@@ -13,7 +13,7 @@ const PromoCode = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   useEffect(() => {
     fetch(
-      "https://error-ten.vercel.app/api/v1/courses/course/getAllPromoCode",
+      "https://course-backend.vercel.app/api/v1/courses/course/getAllPromoCode",
       {
         method: "GET",
         headers: {
@@ -42,10 +42,10 @@ const PromoCode = () => {
     const discountPercent ={
       amount, usageLimit, code,
       expiresAt: date}
-    fetch("https://error-ten.vercel.app/api/v1/courses/course/generate-discount-code", {
+    fetch(`https://course-backend.vercel.app/api/v1/courses/course/generate-discount-code/${amount}`, {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json',
+              "Content-type": "application/json",
             },
             body: JSON.stringify(discountPercent),
         })

@@ -10,7 +10,7 @@ import { Box, Toast } from "native-base";
 export default function AdviserList() {
   const [adviser, setAdviser] = useState([]);
   useEffect(() => {
-    fetch(`http://192.168.31.235:5000/api/v1/user/adviser`)
+    fetch(`https://course-backend.vercel.app/api/v1/user/adviser`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -22,7 +22,7 @@ export default function AdviserList() {
 
   // const removeAdminHendeler = (userss) => {
   //       fetch(
-  //         `http://192.168.31.235:5000/api/v1/user/remove/${userss}?roleAction=user`,
+  //         `https://course-backend.vercel.app/api/v1/user/remove/${userss}?roleAction=user`,
   //         {
   //           method: "PUT",
   //           headers: {
@@ -56,7 +56,7 @@ export default function AdviserList() {
   //         });
   //     };
   const deleteHenedler = (id) => {
-    fetch(`http://192.168.31.235:5000/api/v1/user/delete/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/user/delete/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

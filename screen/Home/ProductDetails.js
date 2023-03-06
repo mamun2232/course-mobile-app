@@ -28,7 +28,7 @@ const ProductDetails = ({ route, navigation }) => {
   useEffect(() => {
     setLoading(true);
     reeData();
-    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`)
+    fetch(`https://course-backend.vercel.app/api/v1/courses/course/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -39,7 +39,7 @@ const ProductDetails = ({ route, navigation }) => {
       .catch((e) => {
         console.log(e);
       });
-    fetch(`http://192.168.31.235:5000/api/v1/user/single/${userId}`)
+    fetch(`https://course-backend.vercel.app/api/v1/user/single/${userId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.success) {
@@ -83,7 +83,7 @@ const ProductDetails = ({ route, navigation }) => {
       };
       console.log(data)
 
-      fetch(`http://192.168.31.235:5000/api/v1/order/new`, {
+      fetch(`https://course-backend.vercel.app/api/v1/order/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

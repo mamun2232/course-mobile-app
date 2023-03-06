@@ -124,7 +124,7 @@ const AddCourse = () => {
     myForm.append("boxThreeTitle", data.boxThreeTitle);
     await axios({
       method: "post",
-      url: "http://192.168.31.235:5000/api/v1/courses/course/app",
+      url: "https://course-backend.vercel.app/api/v1/courses/course/app",
       data: myForm,
       headers: {
         "Content-Type": "multipart/form-data",

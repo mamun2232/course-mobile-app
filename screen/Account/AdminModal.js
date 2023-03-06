@@ -22,7 +22,7 @@ export default function AdminModal({ isOpen, setIsOpen, id, setFetch }) {
   const [token, SetToken] = useState("");
   useEffect(() => {
     reeData();
-    fetch(`http://192.168.31.235:5000/api/v1/user/single/${id}`)
+    fetch(`https://course-backend.vercel.app/api/v1/user/single/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -53,7 +53,7 @@ export default function AdminModal({ isOpen, setIsOpen, id, setFetch }) {
 
   const makeUserAdminHendeler = () => {
     fetch(
-      `http://192.168.31.235:5000/api/v1/user/admin/${user?.email}?roleAction=${position}`,
+      `https://course-backend.vercel.app/api/v1/user/admin/${user?.email}?roleAction=${position}`,
       {
         method: "PUT",
         headers: {

@@ -16,7 +16,7 @@ const ManageActiveCourse = ({ navigation }) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://192.168.31.235:5000/api/v1/courses/course")
+    fetch("https://course-backend.vercel.app/api/v1/courses/course")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -27,7 +27,7 @@ const ManageActiveCourse = ({ navigation }) => {
   }, [course]);
 
   const deleteHenedler = (id) => {
-    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/courses/course/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

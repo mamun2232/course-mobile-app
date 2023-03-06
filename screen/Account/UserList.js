@@ -14,7 +14,7 @@ export default function UserList() {
       const [id, setId] = useState("");
       
       useEffect(()=>{
-            fetch(`http://192.168.31.235:5000/api/v1/user/user`)
+            fetch(`https://course-backend.vercel.app/api/v1/user/user`)
             .then((res) => res.json())
             .then((data) => {
               if (data.success) {
@@ -28,7 +28,7 @@ export default function UserList() {
       },[fetchData , user])
 
       const deleteHenedler = (id) => {
-            fetch(`http://192.168.31.235:5000/api/v1/user/delete/${id}`, {
+            fetch(`https://course-backend.vercel.app/api/v1/user/delete/${id}`, {
               method: "DELETE",
             })
               .then((res) => res.json())

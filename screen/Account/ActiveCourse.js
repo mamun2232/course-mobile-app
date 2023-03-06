@@ -14,40 +14,44 @@ import auth from "../../firebase.init";
 import { useEffect } from "react";
 import { Box, Toast } from "native-base";
 import { Image } from "react-native";
+import Loading from "../Utilits/Loading";
 const ActiveCourse = ({ navigation }) => {
   const [myCourses, setmyCourses] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [refetch, setRefetch] = useState(false);
   const [show, setShow] = useState(false);
   const [user] = useAuthState(auth);
+  const [isLoading , setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     fetch(
-      `http://192.168.31.235:5000/api/v1/courses/myCourses/${user?.email}   `
+      `https://course-backend.vercel.app/api/v1/courses/myCourses/${user?.email}   `
     )
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setmyCourses(data?.course);
-          setLoading(false);
+           setLoading(false)
         } else {
-          setLoading(false);
+         
         }
       });
-  }, [show, myCourses]);
+  }, [show, refetch]);
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  if (isLoading) {
+    return <Loading />;
+  }
 
 
   const deleteHenedler = (id) => {
     console.log(id);
-    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/courses/course/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setRefetch(true)
           Toast.show({
             placement: "top",
             render: () => {

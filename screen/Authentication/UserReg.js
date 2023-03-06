@@ -39,7 +39,7 @@ const UserReg = ({ navigation }) => {
         email: data.email?.toLowerCase(),
         role: "User",
       };
-      fetch("http://192.168.31.235:5000/api/v1/user/register", {
+      fetch("https://course-backend.vercel.app/api/v1/user/register", {
         method: "POST",
         body: JSON.stringify(userInfo),
         headers: {

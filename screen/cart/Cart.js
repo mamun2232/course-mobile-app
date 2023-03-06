@@ -12,7 +12,7 @@ const Cart = () => {
   const [user] = useAuthState(auth)
 
   useEffect(() => {
-    fetch(`http://192.168.31.235:5000/api/v1/order/myCourses/${user?.email}`)
+    fetch(`https://course-backend.vercel.app/api/v1/order/myCourses/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
@@ -34,7 +34,7 @@ const Cart = () => {
   
   const deleteHenedler = (id) => {
 
-    fetch(`http://192.168.31.235:5000/api/v1/order/order/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/order/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

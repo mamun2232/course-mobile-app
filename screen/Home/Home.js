@@ -23,7 +23,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     setLoading(true);
     if (searchText == null) {
-      fetch("http://192.168.31.235:5000/api/v1/courses/course")
+      fetch("https://course-backend.vercel.app/api/v1/courses/course")
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
@@ -36,7 +36,7 @@ const Home = ({ navigation }) => {
         });
     } else {
       fetch(
-        `http://192.168.31.235:5000/api/v1/courses/course?category=${searchText}&kewword=${searchText}`
+        `https://course-backend.vercel.app/api/v1/courses/course?category=${searchText}&kewword=${searchText}`
       )
         .then((res) => res.json())
         .then((data) => {

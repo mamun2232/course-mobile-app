@@ -29,7 +29,7 @@ export default function ContactNow() {
       phone,
       message,
     };
-    fetch("http://192.168.31.235:5000/api/v1/contect/contect", {
+    fetch("https://course-backend.vercel.app/api/v1/contect/contect", {
       method: "POST",
       body: JSON.stringify(contect),
       headers: {

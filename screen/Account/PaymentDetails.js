@@ -6,38 +6,42 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Box, Toast } from "native-base";
 import { Image } from "react-native";
+import Loading from "../Utilits/Loading";
 const PaymentDetails = () => {
   const [myPayment, setPayment] = useState(false);
   const [payment , setPy] = useState({})
   const [user, loadings, error] = useAuthState(auth);
+  const [isLoading, setLoading] = useState(false)
+ const [refetch , setRefetch] = useState(false)
   useEffect(() => {
-  
-    fetch(`http://192.168.31.235:5000/api/v1/order/myPayment/${user?.email}   `)
+   setLoading(true)
+    fetch(`https://course-backend.vercel.app/api/v1/order/myPayment/${user?.email}   `)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           setPy(data?.order);
-         
+         setLoading(false)
         } else {
           
         }
       }).catch((err) =>console.log(err))
-  }, [payment]);
+  }, [refetch]);
   
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  if (isLoading) {
+    return <Loading/>;
+  }
 
   const deleteHenedler = (id) => {
   
-    fetch(`http://192.168.31.235:5000/api/v1/order/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
         if (data.success) {
+          setRefetch(true)
           Toast.show({
             placement: "top",
             render: () => {

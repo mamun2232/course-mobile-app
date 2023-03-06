@@ -7,7 +7,7 @@ const useAdmin = (user) => {
       useEffect(()=>{
             const email = user?.email
             if(email){
-                  fetch(`http://192.168.31.235:5000/api/v1/user/chackAdmin/${email}` , {
+                  fetch(`https://course-backend.vercel.app/api/v1/user/chackAdmin/${email}` , {
                         method: "GET",
                         headers:{
                               // "authorization": `Bearer ${localStorage.getItem('Token')}`

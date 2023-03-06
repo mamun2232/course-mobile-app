@@ -39,7 +39,7 @@ const Adviser = ({navigation}) => {
   const [user, loadings, error] = useAuthState(auth);
   const onSubmit = (data) => {
     try{
-      fetch("http://192.168.31.235:5000/api/v1/user/login", {
+      fetch("https://course-backend.vercel.app/api/v1/user/login", {
         method: "POST",
         body: JSON.stringify({ email: data.email }),
         headers: {

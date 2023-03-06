@@ -2,13 +2,15 @@ import { Box, Toast } from "native-base";
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Loading from "../Utilits/Loading";
 const PendingCourse = ({ navigation }) => {
   const [course, setCourse] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
+  const [refetch, setRefetch] = useState(false);
 
   useEffect(() => {
-    fetch("http://192.168.31.235:5000/api/v1/courses/course")
+    setLoading(true)
+    fetch("https://course-backend.vercel.app/api/v1/courses/course")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -16,15 +18,20 @@ const PendingCourse = ({ navigation }) => {
           setCourse(data.course);
         }
       });
-  }, [course]);
+  }, [refetch]);
+
+  if(loading){
+    return <Loading/>
+  }
 
   const deleteHenedler = (id) => {
-    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/courses/course/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setRefetch(true)
           Toast.show({
             placement: "top",
             render: () => {
@@ -50,7 +57,7 @@ const PendingCourse = ({ navigation }) => {
   // if (loading) return <Loading />;
 
   const activeHendler = (id) => {
-    fetch(`http://192.168.31.235:5000/api/v1/courses/course/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/courses/course/${id}`, {
       method: "PUT",
       body: JSON.stringify({
         status: "Active",

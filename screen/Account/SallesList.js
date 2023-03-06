@@ -14,7 +14,7 @@ const SallesList = ({ route }) => {
   const [user] = useAuthState(auth);
 
   useEffect(() => {
-    fetch(`http://192.168.31.235:5000/api/v1/order/allsellesList/${id}   `)
+    fetch(`https://course-backend.vercel.app/api/v1/order/allsellesList/${id}   `)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -26,7 +26,7 @@ const SallesList = ({ route }) => {
 
   const limitReduceHendler = (postId) => {
     console.log(postId);
-    fetch(`http://192.168.31.235:5000/api/v1/order/limit/${postId}   `, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/limit/${postId}   `, {
       method: "POST",
 
       headers: {
@@ -80,7 +80,7 @@ const SallesList = ({ route }) => {
 
   const deleteHenedler = (id) => {
     console.log(id);
-    fetch(`http://192.168.31.235:5000/api/v1/order/order/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/order/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

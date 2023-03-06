@@ -14,7 +14,7 @@ const ContectList = () => {
     
       useEffect(() => {
         setLoading(true);
-        fetch("http://192.168.31.235:5000/api/v1/contect/contect")
+        fetch("https://course-backend.vercel.app/api/v1/contect/contect")
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
@@ -31,7 +31,7 @@ const ContectList = () => {
       // if (loading) return <Loading />;
     
       const contectDeleteHendeler = (id) => {
-        fetch(`http://192.168.31.235:5000/api/v1/contect/contect/${id}`, {
+        fetch(`https://course-backend.vercel.app/api/v1/contect/contect/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

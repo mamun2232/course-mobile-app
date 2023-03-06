@@ -46,7 +46,7 @@ const ConfromPayment = ({ route , navigation}) => {
       orderItems,
     };
 
-    fetch(`http://192.168.31.235:5000/api/v1/order/new`, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const ConfromPayment = ({ route , navigation}) => {
       shippingInfo,
       emails: user,
     };
-    fetch(`http://192.168.31.235:5000/api/v1/order/post`, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/post`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const ConfromPayment = ({ route , navigation}) => {
   };
   return (
     <WebView
-      source={{ uri: `http://192.168.31.235:5000/pay?price=${price}` }}
+      source={{ uri: `https://course-backend.vercel.app/pay?price=${price}` }}
       startInLoadingState={true}
       onNavigationStateChange={stateChange}
     >

@@ -9,7 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function Ownerlist() {
       const [owner, setOwner] = useState([]);
       useEffect(()=>{
-            fetch(`http://192.168.31.235:5000/api/v1/user/owner`)
+            fetch(`https://course-backend.vercel.app/api/v1/user/owner`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -21,7 +21,7 @@ export default function Ownerlist() {
       });
       },[owner])
       const deleteHenedler = (id) => {
-            fetch(`http://192.168.31.235:5000/api/v1/user/delete/${id}`, {
+            fetch(`https://course-backend.vercel.app/api/v1/user/delete/${id}`, {
               method: "DELETE",
             })
               .then((res) => res.json())

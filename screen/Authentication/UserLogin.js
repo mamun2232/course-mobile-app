@@ -42,7 +42,7 @@ const UserLogin = ({ navigation }) => {
     try {
       setMessageError("");
       setShowError(false);
-      fetch("http://192.168.31.235:5000/api/v1/user/login", {
+      fetch("https://course-backend.vercel.app/api/v1/user/login", {
         method: "POST",
         body: JSON.stringify({ email: data.email }),
         headers: {

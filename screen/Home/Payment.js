@@ -46,9 +46,9 @@ const Payment = ({navigation}) => {
           };
         
           const onSubmit = ({code}) => {
-            fetch(`http://192.168.31.235:5000/api/v1/courses/course/validatePromo/${code}`,
+            fetch(`https://course-backend.vercel.app/api/v1/courses/course/validatePromo/${code}`,
               {
-                method: "Get",
+                method: "POST",
                 headers: {
                   "Content-type": "application/json",
                 }
@@ -117,7 +117,7 @@ const Payment = ({navigation}) => {
               orderItems,
             };
         
-            fetch(`http://192.168.31.235:5000/api/v1/order/new`, {
+            fetch(`https://course-backend.vercel.app/api/v1/order/new`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -140,7 +140,7 @@ const Payment = ({navigation}) => {
               shippingInfo,
               emails: user,
             };
-            fetch(`http://192.168.31.235:5000/api/v1/order/post`, {
+            fetch(`https://course-backend.vercel.app/api/v1/order/post`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

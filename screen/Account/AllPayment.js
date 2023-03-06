@@ -12,7 +12,7 @@ const AllPayment = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://192.168.31.235:5000/api/v1/order/allPayments`)
+    fetch(`https://course-backend.vercel.app/api/v1/order/allPayments`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -31,7 +31,7 @@ const AllPayment = () => {
 
   const deleteHenedler = (id) => {
     console.log(id);
-    fetch(`http://192.168.31.235:5000/api/v1/order/${id}`, {
+    fetch(`https://course-backend.vercel.app/api/v1/order/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
